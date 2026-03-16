@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AbdElMonem Wagih - Flutter Developer | Mobile App Developer</title>
+    <meta name="description" content="AbdElMonem Wagih - Flutter Developer with 4+ years of experience in cross-platform mobile app development">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="AbdElMonem Wagih - Flutter Developer">
+    <meta property="og:description" content="Experienced Flutter Developer specializing in cross-platform mobile applications">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://abdelmonem-wagih.github.io/portfolio/">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Particle Background -->
+    <canvas id="particleCanvas"></canvas>
+    
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">AbdElMonem</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Hi, I'm <span class="highlight">AbdElMonem Wagih</span>
+                    </h1>
+                    <div class="typing-container">
+                        <span class="typing-prefix">I'm a </span>
+                        <span id="typing-text" class="typing-text">Flutter Developer</span>
+                        <span class="typing-cursor">|</span>
+                    </div>
+                    <p class="hero-description">
+                        Passionate Flutter developer with 4+ years of experience building scalable, 
+                        high-performance mobile applications. Specializing in cross-platform development 
+                        and clean architecture patterns.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#projects" class="btn btn-primary">
+                            <i class="fas fa-code"></i>
+                            View Projects
+                        </a>
+                        <a href="path/to/cv.pdf" class="btn btn-secondary" download>
+                            <i class="fas fa-download"></i>
+                            Download CV
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-image-container">
+                        <div class="hero-image-bg"></div>
+                        <div class="floating-elements">
+                            <div class="floating-icon"><i class="fab fa-flutter"></i></div>
+                            <div class="floating-icon"><i class="fab fa-dart-lang"></i></div>
+                            <div class="floating-icon"><i class="fab fa-firebase"></i></div>
+                            <div class="floating-icon"><i class="fab fa-android"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span>Scroll Down</span>
+                <div class="scroll-arrow"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        I'm a dedicated Flutter Developer from Cairo, Egypt, with over 4 years of experience 
+                        in mobile app development. I specialize in creating beautiful, performant, and 
+                        user-friendly cross-platform mobile applications.
+                    </p>
+                    <p>
+                        My passion lies in transforming innovative ideas into functional mobile solutions 
+                        that provide exceptional user experiences. I have experience working with various 
+                        industries including e-commerce, entertainment, and productivity applications.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-number">4+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">14+</div>
+                            <div class="stat-label">Projects Completed</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Client Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-container">
+                        <div class="image-bg"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <!-- Mobile Development -->
+                <div class="skill-category">
+                    <div class="category-header">
+                        <i class="fas fa-mobile-alt"></i>
+                        <h3>Mobile Development</h3>
+                    </div>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">Flutter</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="95"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Dart</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Android (Native)</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend & APIs -->
+                <div class="skill-category">
+                    <div class="category-header">
+                        <i class="fas fa-server"></i>
+                        <h3>Backend & APIs</h3>
+                    </div>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">Firebase</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">REST APIs</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="90"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">C++</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="70"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools & Technologies -->
+                <div class="skill-category">
+                    <div class="category-header">
+                        <i class="fas fa-tools"></i>
+                        <h3>Tools & Technologies</h3>
+                    </div>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <span class="skill-name">Git & GitHub</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">CI/CD</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="70"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Agile/Scrum</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-period">2024 - Present</div>
+                        <h3 class="timeline-title">Flutter Developer</h3>
+                        <h4 class="timeline-company">Qara Digital Solution</h4>
+                        <p class="timeline-description">
+                            Leading mobile app development projects, implementing scalable architectures, and 
+                            collaborating with cross-functional teams to deliver high-quality applications 
+                            using Flutter and Dart.
+                        </p>
+                        <div class="timeline-skills">
+                            <span>Flutter</span>
+                            <span>Dart</span>
+                            <span>Firebase</span>
+                            <span>REST APIs</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-period">2023 - 2024</div>
+                        <h3 class="timeline-title">Flutter Developer</h3>
+                        <h4 class="timeline-company">Fieldk - فيلدك</h4>
+                        <p class="timeline-description">
+                            Developed and maintained multiple mobile applications, focusing on user experience 
+                            optimization and performance improvements. Implemented clean architecture patterns 
+                            and ensured code quality through testing and code reviews.
+                        </p>
+                        <div class="timeline-skills">
+                            <span>Flutter</span>
+                            <span>MVVM</span>
+                            <span>API Integration</span>
+                            <span>UI/UX</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-period">2022 - 2023</div>
+                        <h3 class="timeline-title">Flutter Developer</h3>
+                        <h4 class="timeline-company">Freelance</h4>
+                        <p class="timeline-description">
+                            Worked on various mobile app projects for different clients, gaining experience 
+                            in project management, client communication, and diverse industry requirements. 
+                            Successfully delivered multiple apps with positive client feedback.
+                        </p>
+                        <div class="timeline-skills">
+                            <span>Flutter</span>
+                            <span>Project Management</span>
+                            <span>Client Relations</span>
+                            <span>Multiple Industries</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            
+            <!-- Featured Projects from CV -->
+            <div class="projects-grid">
+                <div class="project-card featured">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="project-meta">
+                            <span class="project-type">E-Commerce</span>
+                            <div class="project-links">
+                                <a href="https://github.com/Abdelmonem-wagih/ShopEasy" class="project-link" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="project-title">ShopEasy</h3>
+                    <p class="project-description">
+                        A comprehensive e-commerce mobile application with features including product browsing, 
+                        shopping cart, secure payments, and user management. Built with clean architecture and 
+                        modern design principles.
+                    </p>
+                    <div class="project-tech">
+                        <span>Flutter</span>
+                        <span>Dart</span>
+                        <span>Firebase</span>
+                        <span>REST API</span>
+                    </div>
+                </div>
+
+                <div class="project-card featured">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="project-meta">
+                            <span class="project-type">Communication</span>
+                            <div class="project-links">
+                                <a href="https://github.com/Abdelmonem-wagih/FlashChat" class="project-link" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="project-title">FlashChat</h3>
+                    <p class="project-description">
+                        Real-time messaging application with secure authentication, group chats, and 
+                        multimedia sharing. Implemented using Firebase for real-time communication and 
+                        cloud storage.
+                    </p>
+                    <div class="project-tech">
+                        <span>Flutter</span>
+                        <span>Firebase Auth</span>
+                        <span>Firestore</span>
+                        <span>Real-time</span>
+                    </div>
+                </div>
+
+                <div class="project-card featured">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="project-meta">
+                            <span class="project-type">Productivity</span>
+                            <div class="project-links">
+                                <a href="https://github.com/Abdelmonem-wagih/ToDo" class="project-link" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="project-title">ToDo App</h3>
+                    <p class="project-description">
+                        A beautifully designed task management application with features like task categorization, 
+                        reminders, progress tracking, and intuitive UI for enhanced productivity.
+                    </p>
+                    <div class="project-tech">
+                        <span>Flutter</span>
+                        <span>SQLite</span>
+                        <span>State Management</span>
+                        <span>Material Design</span>
+                    </div>
+                </div>
+
+                <div class="project-card featured">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-cloud-sun"></i>
+                        </div>
+                        <div class="project-meta">
+                            <span class="project-type">Weather</span>
+                            <div class="project-links">
+                                <a href="https://github.com/Abdelmonem-wagih/Clima" class="project-link" target="_blank"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="project-title">Clima</h3>
+                    <p class="project-description">
+                        Weather application providing real-time weather information, forecasts, and location-based 
+                        weather data with beautiful UI and smooth animations.
+                    </p>
+                    <div class="project-tech">
+                        <span>Flutter</span>
+                        <span>Weather API</span>
+                        <span>Geolocation</span>
+                        <span>Animations</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GitHub Projects Section -->
+            <div class="github-projects">
+                <h3 class="subsection-title">
+                    <i class="fab fa-github"></i>
+                    GitHub Projects
+                </h3>
+                <div id="github-projects-container" class="github-grid">
+                    <!-- GitHub projects will be loaded here by JavaScript -->
+                    <div class="loading-placeholder">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Loading GitHub projects...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's Work Together</h3>
+                    <p>
+                        I'm always interested in new opportunities and exciting projects. 
+                        Whether you have a question or just want to say hi, I'll do my best to get back to you!
+                    </p>
+                    
+                    <div class="contact-items">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <a href="mailto:abdowagih38@gmail.com">abdowagih38@gmail.com</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Phone</h4>
+                                <a href="tel:+201024657305">+20 102 465 7305</a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h4>Location</h4>
+                                <span>Cairo, Egypt</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/abdelmonem-wagih-0301ba197" target="_blank" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/Abdelmonem-wagih" target="_blank" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="mailto:abdowagih38@gmail.com" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="tel:+201024657305" class="social-link">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2025 AbdElMonem Wagih. All rights reserved.</p>
+                    <p>Built with passion and dedication</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
