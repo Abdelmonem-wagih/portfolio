@@ -3,32 +3,450 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AbdElMonem Wagih - Flutter Developer | Mobile App Developer</title>
-    <meta name="description" content="AbdElMonem Wagih - Flutter Developer with 4+ years of experience in cross-platform mobile app development">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="AbdElMonem Wagih - Flutter Developer">
-    <meta property="og:description" content="Experienced Flutter Developer specializing in cross-platform mobile applications">
+    <title>AbdElMonem Wagih — Flutter Developer</title>
+    <meta name="description" content="AbdElMonem Wagih — Flutter Developer with 4+ years of experience building polished cross-platform mobile applications.">
+
+    <meta property="og:title" content="AbdElMonem Wagih — Flutter Developer">
+    <meta property="og:description" content="Building polished cross-platform mobile apps with Flutter.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://abdelmonem-wagih.github.io/portfolio/">
-    
-    <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
-    
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Particle Background -->
-    <canvas id="particleCanvas"></canvas>
-    
-    <!-- Navigation -->
-    <nav class="nav">
+
+    <!-- ===== NAV ===== -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#home" class="nav-logo">aw.</a>
+            <ul class="nav-links">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-right">
+                <a href="https://github.com/Abdelmonem-wagih" target="_blank" rel="noopener noreferrer" class="nav-github" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="#contact" class="btn-nav-cta">Hire Me</a>
+                <button class="nav-toggle" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+        <div class="nav-mobile">
+            <ul>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section id="home" class="hero">
+        <div class="hero-glow"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="availability-badge reveal">
+                    <span class="badge-dot"></span>
+                    Available for new opportunities
+                </div>
+                <h1 class="hero-name reveal" style="transition-delay:.08s">AbdElMonem<br>Wagih</h1>
+                <p class="hero-role reveal" style="transition-delay:.16s">
+                    <span class="role-static">Flutter &amp; </span><span id="typing-text" class="role-typed">Mobile Developer</span><span class="typing-cursor">|</span>
+                </p>
+                <p class="hero-bio reveal" style="transition-delay:.24s">
+                    Building polished, high-performance cross-platform mobile apps for 4+ years.
+                    I care deeply about clean architecture, smooth UX, and delivering on time.
+                </p>
+                <div class="hero-actions reveal" style="transition-delay:.32s">
+                    <a href="#projects" class="btn-primary">
+                        View Projects <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#contact" class="btn-outline">Get in Touch</a>
+                </div>
+                <div class="hero-stats reveal" style="transition-delay:.42s">
+                    <div class="stat-item">
+                        <span class="stat-value">4+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-sep"></div>
+                    <div class="stat-item">
+                        <span class="stat-value">14+</span>
+                        <span class="stat-label">Apps Shipped</span>
+                    </div>
+                    <div class="stat-sep"></div>
+                    <div class="stat-item">
+                        <span class="stat-value">3</span>
+                        <span class="stat-label">Companies</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about" class="section about">
+        <div class="container">
+            <div class="section-label reveal">About</div>
+            <h2 class="section-title reveal">I build apps people love to use.</h2>
+            <div class="about-body reveal">
+                <p>
+                    I'm a dedicated Flutter developer based in <strong>Cairo, Egypt</strong>. Over the past
+                    4+ years I've worked across healthcare, field services, e-commerce, and more — always
+                    focused on clean code, great performance, and the kind of UI details that make the difference.
+                </p>
+                <p>
+                    Currently at <strong>Qara Digital Solution</strong>, leading mobile development and shipping
+                    apps used by thousands of real users.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills" class="section skills">
+        <div class="container">
+            <div class="section-label reveal">Skills</div>
+            <h2 class="section-title reveal">What I work with</h2>
+            <div class="skills-groups">
+                <div class="skill-group reveal">
+                    <h3 class="skill-group-title"><i class="fas fa-mobile-alt"></i> Mobile</h3>
+                    <div class="skill-chips">
+                        <span class="chip chip-accent">Flutter</span>
+                        <span class="chip chip-accent">Dart</span>
+                        <span class="chip">Android (Native)</span>
+                        <span class="chip">iOS</span>
+                    </div>
+                </div>
+                <div class="skill-group reveal" style="transition-delay:.05s">
+                    <h3 class="skill-group-title"><i class="fas fa-layer-group"></i> Architecture</h3>
+                    <div class="skill-chips">
+                        <span class="chip chip-accent">Clean Architecture</span>
+                        <span class="chip chip-accent">MVVM</span>
+                        <span class="chip">BLoC</span>
+                        <span class="chip">Provider</span>
+                        <span class="chip">Riverpod</span>
+                    </div>
+                </div>
+                <div class="skill-group reveal" style="transition-delay:.1s">
+                    <h3 class="skill-group-title"><i class="fas fa-server"></i> Backend &amp; APIs</h3>
+                    <div class="skill-chips">
+                        <span class="chip chip-accent">Firebase</span>
+                        <span class="chip chip-accent">REST APIs</span>
+                        <span class="chip">Firestore</span>
+                        <span class="chip">Push Notifications</span>
+                        <span class="chip">C++</span>
+                    </div>
+                </div>
+                <div class="skill-group reveal" style="transition-delay:.15s">
+                    <h3 class="skill-group-title"><i class="fas fa-tools"></i> Tools</h3>
+                    <div class="skill-chips">
+                        <span class="chip chip-accent">Git &amp; GitHub</span>
+                        <span class="chip">CI/CD</span>
+                        <span class="chip">Agile / Scrum</span>
+                        <span class="chip">Figma</span>
+                        <span class="chip">Google Maps SDK</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== EXPERIENCE ===== -->
+    <section id="experience" class="section experience">
+        <div class="container">
+            <div class="section-label reveal">Experience</div>
+            <h2 class="section-title reveal">Where I've worked</h2>
+            <div class="timeline">
+                <div class="tl-item reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-content">
+                        <div class="tl-period">2024 — Present</div>
+                        <div class="tl-role">Flutter Developer</div>
+                        <div class="tl-company">Qara Digital Solution</div>
+                        <p class="tl-desc">
+                            Leading mobile app development, implementing scalable architectures, and
+                            collaborating with cross-functional teams to deliver production-grade applications.
+                        </p>
+                        <div class="tl-tags">
+                            <span>Flutter</span><span>Dart</span><span>Firebase</span><span>REST APIs</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-content">
+                        <div class="tl-period">2023 — 2024</div>
+                        <div class="tl-role">Flutter Developer</div>
+                        <div class="tl-company">Fieldk — فيلدك</div>
+                        <p class="tl-desc">
+                            Developed and maintained multiple mobile apps with a focus on UX optimization,
+                            clean architecture, and performance. Built the Fiedk app from scratch.
+                        </p>
+                        <div class="tl-tags">
+                            <span>Flutter</span><span>MVVM</span><span>API Integration</span><span>UI/UX</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tl-item reveal">
+                    <div class="tl-dot"></div>
+                    <div class="tl-content">
+                        <div class="tl-period">2022 — 2023</div>
+                        <div class="tl-role">Flutter Developer</div>
+                        <div class="tl-company">Freelance</div>
+                        <p class="tl-desc">
+                            Delivered multiple mobile apps across different industries. Managed client
+                            communication, requirements, and full project lifecycle independently.
+                        </p>
+                        <div class="tl-tags">
+                            <span>Flutter</span><span>Project Management</span><span>Client Relations</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects" class="section projects">
+        <div class="container">
+            <div class="section-label reveal">Projects</div>
+            <h2 class="section-title reveal">Things I've built</h2>
+
+            <div class="projects-grid">
+
+                <!-- Alfa Pharm — Live -->
+                <div class="project-card reveal">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fas fa-pills"></i></div>
+                        <span class="card-badge">Live on Stores</span>
+                    </div>
+                    <h3 class="card-title">Alfa Pharm</h3>
+                    <p class="card-desc">
+                        A smart pharmacy and medicine delivery app connecting patients with local pharmacies.
+                        Features include medicine search, prescription uploads, order tracking, and real-time notifications.
+                    </p>
+                    <div class="card-tech">
+                        <span>Flutter</span><span>Firebase</span><span>REST API</span><span>Push Notifications</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.alfa.pharmApp&pcampaignid=web_share"
+                           target="_blank" rel="noopener noreferrer" class="store-btn play">
+                            <i class="fab fa-google-play"></i>
+                            <div><small>Get it on</small><strong>Google Play</strong></div>
+                        </a>
+                        <a href="https://apps.apple.com/us/app/alfa-pharm/id6759933359"
+                           target="_blank" rel="noopener noreferrer" class="store-btn apple">
+                            <i class="fab fa-apple"></i>
+                            <div><small>Download on the</small><strong>App Store</strong></div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Fiedk — Live -->
+                <div class="project-card reveal" style="transition-delay:.05s">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fas fa-hands-helping"></i></div>
+                        <span class="card-badge">Live on Stores</span>
+                    </div>
+                    <h3 class="card-title">Fiedk — في إيدك</h3>
+                    <p class="card-desc">
+                        منصة خدمات متكاملة تربط العملاء بمزودي الخدمة مع تتبع مباشر ودفع إلكتروني.
+                        <em>An on-demand service marketplace with live GPS tracking and in-app payments.</em>
+                    </p>
+                    <div class="card-tech">
+                        <span>Flutter</span><span>Firebase</span><span>Google Maps</span><span>Real-time</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://play.google.com/store/apps/details?id=com.tregix.fiedk&pcampaignid=web_share"
+                           target="_blank" rel="noopener noreferrer" class="store-btn play">
+                            <i class="fab fa-google-play"></i>
+                            <div><small>Get it on</small><strong>Google Play</strong></div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ShopEasy — OSS -->
+                <div class="project-card reveal" style="transition-delay:.1s">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fas fa-shopping-bag"></i></div>
+                        <span class="card-badge card-badge-oss">Open Source</span>
+                    </div>
+                    <h3 class="card-title">ShopEasy</h3>
+                    <p class="card-desc">
+                        Full-featured e-commerce app with product browsing, cart, secure payments, and
+                        user management — built on clean architecture principles.
+                    </p>
+                    <div class="card-tech">
+                        <span>Flutter</span><span>Dart</span><span>Firebase</span><span>REST API</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://github.com/Abdelmonem-wagih/ShopEasy" target="_blank" rel="noopener noreferrer" class="store-btn github">
+                            <i class="fab fa-github"></i>
+                            <div><small>View on</small><strong>GitHub</strong></div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- FlashChat — OSS -->
+                <div class="project-card reveal" style="transition-delay:.15s">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fas fa-comment-dots"></i></div>
+                        <span class="card-badge card-badge-oss">Open Source</span>
+                    </div>
+                    <h3 class="card-title">FlashChat</h3>
+                    <p class="card-desc">
+                        Real-time messaging app with secure auth, group chats, and multimedia sharing
+                        powered by Firebase Firestore.
+                    </p>
+                    <div class="card-tech">
+                        <span>Flutter</span><span>Firebase Auth</span><span>Firestore</span><span>Real-time</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://github.com/Abdelmonem-wagih/FlashChat" target="_blank" rel="noopener noreferrer" class="store-btn github">
+                            <i class="fab fa-github"></i>
+                            <div><small>View on</small><strong>GitHub</strong></div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ToDo — OSS -->
+                <div class="project-card reveal" style="transition-delay:.2s">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fas fa-check-square"></i></div>
+                        <span class="card-badge card-badge-oss">Open Source</span>
+                    </div>
+                    <h3 class="card-title">ToDo App</h3>
+                    <p class="card-desc">
+                        Task management app with categorization, reminders, and progress tracking
+                        for better personal productivity.
+                    </p>
+                    <div class="card-tech">
+                        <span>Flutter</span><span>SQLite</span><span>State Management</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://github.com/Abdelmonem-wagih/ToDo" target="_blank" rel="noopener noreferrer" class="store-btn github">
+                            <i class="fab fa-github"></i>
+                            <div><small>View on</small><strong>GitHub</strong></div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Clima — OSS -->
+                <div class="project-card reveal" style="transition-delay:.25s">
+                    <div class="card-top">
+                        <div class="card-icon"><i class="fas fa-cloud-sun"></i></div>
+                        <span class="card-badge card-badge-oss">Open Source</span>
+                    </div>
+                    <h3 class="card-title">Clima</h3>
+                    <p class="card-desc">
+                        Weather app with real-time forecasts, location-based data, and smooth
+                        animations for a delightful user experience.
+                    </p>
+                    <div class="card-tech">
+                        <span>Flutter</span><span>Weather API</span><span>Geolocation</span>
+                    </div>
+                    <div class="card-actions">
+                        <a href="https://github.com/Abdelmonem-wagih/Clima" target="_blank" rel="noopener noreferrer" class="store-btn github">
+                            <i class="fab fa-github"></i>
+                            <div><small>View on</small><strong>GitHub</strong></div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- GitHub feed -->
+            <div class="github-section">
+                <div class="github-section-header reveal">
+                    <i class="fab fa-github"></i>
+                    <span>More on GitHub</span>
+                </div>
+                <div id="github-projects-container" class="github-grid">
+                    <div class="loading-placeholder">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Loading repositories…</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <div class="section-label reveal">Contact</div>
+            <h2 class="section-title reveal">Let's work together</h2>
+            <p class="contact-intro reveal">
+                I'm open to new opportunities — freelance, full-time, or collaboration.
+                Reach out and I'll get back to you quickly.
+            </p>
+            <div class="contact-cards reveal">
+                <a href="mailto:abdowagih38@gmail.com" class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <span class="cc-label">Email</span>
+                        <span class="cc-value">abdowagih38@gmail.com</span>
+                    </div>
+                </a>
+                <a href="tel:+201024657305" class="contact-card">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <span class="cc-label">Phone</span>
+                        <span class="cc-value">+20 102 465 7305</span>
+                    </div>
+                </a>
+                <div class="contact-card no-link">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <span class="cc-label">Location</span>
+                        <span class="cc-value">Cairo, Egypt</span>
+                    </div>
+                </div>
+            </div>
+            <div class="social-row reveal">
+                <a href="https://www.linkedin.com/in/abdelmonem-wagih-0301ba197" target="_blank" rel="noopener noreferrer" class="social-pill">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <a href="https://github.com/Abdelmonem-wagih" target="_blank" rel="noopener noreferrer" class="social-pill">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="mailto:abdowagih38@gmail.com" class="social-pill">
+                    <i class="fas fa-envelope"></i> Email
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <span class="footer-logo">aw.</span>
+                <span class="footer-copy">&copy; 2026 AbdElMonem Wagih</span>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
         <div class="nav-container">
             <div class="nav-logo">
                 <span class="logo-text">AbdElMonem</span>
@@ -78,17 +496,6 @@
                         </a>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <div class="hero-image-container">
-                        <div class="hero-image-bg"></div>
-                        <div class="floating-elements">
-                            <div class="floating-icon"><i class="fab fa-flutter"></i></div>
-                            <div class="floating-icon"><i class="fab fa-dart-lang"></i></div>
-                            <div class="floating-icon"><i class="fab fa-firebase"></i></div>
-                            <div class="floating-icon"><i class="fab fa-android"></i></div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="scroll-indicator">
                 <span>Scroll Down</span>
@@ -126,11 +533,6 @@
                             <div class="stat-number">100%</div>
                             <div class="stat-label">Client Satisfaction</div>
                         </div>
-                    </div>
-                </div>
-                <div class="about-image">
-                    <div class="image-container">
-                        <div class="image-bg"></div>
                     </div>
                 </div>
             </div>
@@ -302,9 +704,76 @@
         <div class="container">
             <h2 class="section-title">Featured Projects</h2>
             
-            <!-- Featured Projects from CV -->
+            <!-- Featured Projects -->
             <div class="projects-grid">
-                <div class="project-card featured">
+
+                <!-- Private Projects — Store Links -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                        <div class="project-meta">
+                            <span class="project-type">Healthcare</span>
+                        </div>
+                    </div>
+                    <h3 class="project-title">Alfa Pharm</h3>
+                    <p class="project-description">
+                        A smart pharmacy and medicine delivery app connecting patients with local pharmacies.
+                        Features include medicine search, prescription uploads, order tracking, and real-time
+                        notifications for a seamless healthcare experience.
+                    </p>
+                    <div class="project-tech">
+                        <span>Flutter</span>
+                        <span>Firebase</span>
+                        <span>REST API</span>
+                        <span>Push Notifications</span>
+                    </div>
+                    <div class="project-store-links">
+                        <a href="https://play.google.com/store/apps/details?id=com.alfa.pharmApp&pcampaignid=web_share"
+                           target="_blank" rel="noopener noreferrer" class="store-btn store-btn-play">
+                            <i class="fab fa-google-play"></i>
+                            <span><small>Get it on</small>Google Play</span>
+                        </a>
+                        <a href="https://apps.apple.com/us/app/alfa-pharm/id6759933359"
+                           target="_blank" rel="noopener noreferrer" class="store-btn store-btn-apple">
+                            <i class="fab fa-apple"></i>
+                            <span><small>Download on the</small>App Store</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <div class="project-meta">
+                            <span class="project-type">Field Services</span>
+                        </div>
+                    </div>
+                    <h3 class="project-title">Fiedk &mdash; في إيدك</h3>
+                    <p class="project-description">
+                        منصة خدمات متكاملة تربط العملاء بمزودي الخدمة في وقت قياسي، مع تتبع مباشر على الخريطة ودفع إلكتروني آمن.
+                        <br><em>A service marketplace connecting customers with on-demand professionals, featuring live GPS tracking and in-app payments.</em>
+                    </p>
+                    <div class="project-tech">
+                        <span>Flutter</span>
+                        <span>Firebase</span>
+                        <span>Google Maps</span>
+                        <span>Real-time</span>
+                    </div>
+                    <div class="project-store-links">
+                        <a href="https://play.google.com/store/apps/details?id=com.tregix.fiedk&pcampaignid=web_share"
+                           target="_blank" rel="noopener noreferrer" class="store-btn store-btn-play">
+                            <i class="fab fa-google-play"></i>
+                            <span><small>Get it on</small>Google Play</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Open Source Projects -->
+                <div class="project-card">
                     <div class="project-header">
                         <div class="project-icon">
                             <i class="fas fa-shopping-cart"></i>
@@ -312,15 +781,14 @@
                         <div class="project-meta">
                             <span class="project-type">E-Commerce</span>
                             <div class="project-links">
-                                <a href="https://github.com/Abdelmonem-wagih/ShopEasy" class="project-link" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://github.com/Abdelmonem-wagih/ShopEasy" class="project-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
                     <h3 class="project-title">ShopEasy</h3>
                     <p class="project-description">
-                        A comprehensive e-commerce mobile application with features including product browsing, 
-                        shopping cart, secure payments, and user management. Built with clean architecture and 
-                        modern design principles.
+                        A full-featured e-commerce app with product browsing, shopping cart,
+                        secure payments, and user management built on clean architecture.
                     </p>
                     <div class="project-tech">
                         <span>Flutter</span>
@@ -330,7 +798,7 @@
                     </div>
                 </div>
 
-                <div class="project-card featured">
+                <div class="project-card">
                     <div class="project-header">
                         <div class="project-icon">
                             <i class="fas fa-comments"></i>
@@ -338,15 +806,14 @@
                         <div class="project-meta">
                             <span class="project-type">Communication</span>
                             <div class="project-links">
-                                <a href="https://github.com/Abdelmonem-wagih/FlashChat" class="project-link" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://github.com/Abdelmonem-wagih/FlashChat" class="project-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
                     <h3 class="project-title">FlashChat</h3>
                     <p class="project-description">
-                        Real-time messaging application with secure authentication, group chats, and 
-                        multimedia sharing. Implemented using Firebase for real-time communication and 
-                        cloud storage.
+                        Real-time messaging app with secure authentication, group chats,
+                        and multimedia sharing powered by Firebase Firestore.
                     </p>
                     <div class="project-tech">
                         <span>Flutter</span>
@@ -356,7 +823,7 @@
                     </div>
                 </div>
 
-                <div class="project-card featured">
+                <div class="project-card">
                     <div class="project-header">
                         <div class="project-icon">
                             <i class="fas fa-tasks"></i>
@@ -364,14 +831,14 @@
                         <div class="project-meta">
                             <span class="project-type">Productivity</span>
                             <div class="project-links">
-                                <a href="https://github.com/Abdelmonem-wagih/ToDo" class="project-link" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://github.com/Abdelmonem-wagih/ToDo" class="project-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
                     <h3 class="project-title">ToDo App</h3>
                     <p class="project-description">
-                        A beautifully designed task management application with features like task categorization, 
-                        reminders, progress tracking, and intuitive UI for enhanced productivity.
+                        Task management app with categorization, reminders, and progress
+                        tracking for enhanced personal productivity.
                     </p>
                     <div class="project-tech">
                         <span>Flutter</span>
@@ -381,7 +848,7 @@
                     </div>
                 </div>
 
-                <div class="project-card featured">
+                <div class="project-card">
                     <div class="project-header">
                         <div class="project-icon">
                             <i class="fas fa-cloud-sun"></i>
@@ -389,14 +856,14 @@
                         <div class="project-meta">
                             <span class="project-type">Weather</span>
                             <div class="project-links">
-                                <a href="https://github.com/Abdelmonem-wagih/Clima" class="project-link" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="https://github.com/Abdelmonem-wagih/Clima" class="project-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
                     <h3 class="project-title">Clima</h3>
                     <p class="project-description">
-                        Weather application providing real-time weather information, forecasts, and location-based 
-                        weather data with beautiful UI and smooth animations.
+                        Weather app with real-time forecasts, location-based data,
+                        and smooth animations for an elegant user experience.
                     </p>
                     <div class="project-tech">
                         <span>Flutter</span>
@@ -405,6 +872,7 @@
                         <span>Animations</span>
                     </div>
                 </div>
+
             </div>
 
             <!-- GitHub Projects Section -->
@@ -484,26 +952,6 @@
                     </div>
                 </div>
                 
-                <div class="contact-form">
-                    <form id="contact-form">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="subject" name="subject" placeholder="Subject" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i>
-                            Send Message
-                        </button>
-                    </form>
-                </div>
             </div>
         </div>
     </section>
@@ -513,7 +961,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-text">
-                    <p>&copy; 2025 AbdElMonem Wagih. All rights reserved.</p>
+                    <p>&copy; 2026 AbdElMonem Wagih. All rights reserved.</p>
                     <p>Built with passion and dedication</p>
                 </div>
                 <div class="footer-links">
