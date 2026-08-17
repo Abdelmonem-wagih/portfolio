@@ -1,4 +1,4 @@
-﻿/* ===================================================================
+/* ===================================================================
    CONFIGURATION
 =================================================================== */
 const GITHUB_USERNAME = 'Abdelmonem-wagih';
@@ -129,8 +129,10 @@ async function fetchGitHubData() {
 
         const repos = await res.json();
 
+        const hiddenRepos = ['Portfolio', 'portfolio', 'ToDo', 'Sahra', 'ShopEasy'];
+
         const filtered = repos
-            .filter(r => !r.fork && r.name !== GITHUB_USERNAME)
+            .filter(r => !r.fork && r.name !== GITHUB_USERNAME && !hiddenRepos.includes(r.name))
             .filter(r => r.stargazers_count > 0 || r.updated_at > '2022-01-01')
             .slice(0, 6);
 
@@ -235,7 +237,6 @@ function init() {
     initTypingAnimation();
     initNavigation();
     initScrollReveal();
-    fetchGitHubData();
     document.body.classList.add('loaded');
 }
 
