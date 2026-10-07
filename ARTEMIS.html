@@ -1,0 +1,3295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ARTEMIS — Complete Reference Guide</title>
+<style>
+:root {
+  --bg: #0a0e1a;
+  --bg2: #0f1525;
+  --bg3: #141c30;
+  --card: #1a2235;
+  --card2: #1f2a40;
+  --border: #2a3a55;
+  --accent: #4f9eff;
+  --accent2: #7c5cfc;
+  --accent3: #00d4aa;
+  --accent4: #ff6b6b;
+  --accent5: #ffd166;
+  --text: #e8edf5;
+  --text2: #9aafc8;
+  --text3: #6b7f9e;
+  --code-bg: #0d1520;
+  --glow: rgba(79,158,255,0.15);
+  --glow2: rgba(124,92,252,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.7;overflow-x:hidden}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,14,26,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;gap:1rem;height:60px;transition:all .3s}
+.nav-logo{font-size:1.1rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap;flex-shrink:0}
+.nav-links{display:flex;gap:.25rem;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.72rem;padding:.3rem .55rem;border-radius:6px;transition:all .2s;white-space:nowrap;border:1px solid transparent}
+.nav-links a:hover,.nav-links a.active{background:var(--glow);color:var(--accent);border-color:var(--border)}
+.nav-progress{position:fixed;top:60px;left:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .1s;z-index:999}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 2rem 4rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(79,158,255,.08) 0%,transparent 70%),radial-gradient(ellipse 60% 40% at 80% 70%,rgba(124,92,252,.06) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.3;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent)}
+.badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(79,158,255,.1);border:1px solid rgba(79,158,255,.3);color:var(--accent);padding:.35rem 1rem;border-radius:20px;font-size:.8rem;font-weight:600;margin-bottom:1.5rem;animation:fadeDown .6s ease}
+.hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;line-height:1.1;margin-bottom:1rem;animation:fadeUp .7s ease .1s both}
+.hero h1 span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:1.15rem;color:var(--text2);max-width:600px;margin:0 auto 2.5rem;animation:fadeUp .7s ease .2s both}
+.hero-stats{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;animation:fadeUp .7s ease .3s both}
+.stat{text-align:center}
+.stat-num{font-size:2rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:.75rem;color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
+.scroll-indicator{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--text3);font-size:.75rem;animation:bounce 2s infinite}
+.scroll-indicator svg{animation:none}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* ── SECTIONS ── */
+.section{padding:5rem 2rem;max-width:1200px;margin:0 auto;opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.section.visible{opacity:1;transform:translateY(0)}
+.section-header{margin-bottom:3rem}
+.section-tag{display:inline-block;background:var(--glow);color:var(--accent);border:1px solid rgba(79,158,255,.3);padding:.25rem .75rem;border-radius:20px;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem}
+.section-title{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;margin-bottom:.75rem}
+.section-desc{color:var(--text2);font-size:1.05rem;max-width:700px}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:4rem 0}
+
+/* ── CARDS ── */
+.cards{display:grid;gap:1.5rem}
+.cards-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.cards-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.75rem;transition:all .3s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--glow),transparent);opacity:0;transition:opacity .3s}
+.card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.3)}
+.card:hover::before{opacity:1}
+.card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
+.card-icon.blue{background:rgba(79,158,255,.15)}
+.card-icon.purple{background:rgba(124,92,252,.15)}
+.card-icon.green{background:rgba(0,212,170,.15)}
+.card-icon.red{background:rgba(255,107,107,.15)}
+.card-icon.yellow{background:rgba(255,209,102,.15)}
+.card h3{font-size:1.05rem;font-weight:700;margin-bottom:.6rem}
+.card p{color:var(--text2);font-size:.9rem;line-height:1.6}
+
+/* ── CODE BLOCKS ── */
+.code-block{background:var(--code-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:1.25rem 0}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)}
+.code-lang{font-size:.72rem;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.code-dots{display:flex;gap:.4rem}
+.code-dot{width:10px;height:10px;border-radius:50%}
+.code-dot:nth-child(1){background:#ff6b6b}
+.code-dot:nth-child(2){background:#ffd166}
+.code-dot:nth-child(3){background:#06d6a0}
+.code-body{padding:1.25rem;overflow-x:auto}
+.code-body pre{font-family:'Fira Code','Cascadia Code',monospace;font-size:.82rem;line-height:1.7;color:#abb2bf;white-space:pre}
+.kw{color:#c678dd}.fn{color:#61afef}.str{color:#98c379}.num{color:#d19a66}.cm{color:#5c6370;font-style:italic}.tag{color:#e06c75}.attr{color:#d19a66}.val{color:#98c379}.op{color:#56b6c2}.cls{color:#e5c07b}
+
+/* ── FLOW DIAGRAM ── */
+.flow{display:flex;flex-direction:column;gap:0;align-items:flex-start;margin:1.5rem 0}
+.flow-item{display:flex;align-items:flex-start;gap:1rem;position:relative;padding-bottom:0}
+.flow-item:not(:last-child)::after{content:'';position:absolute;left:19px;top:44px;bottom:0;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent2));height:calc(100% - 8px)}
+.flow-icon{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;box-shadow:0 0 20px var(--glow);z-index:1}
+.flow-content{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;flex:1;margin-bottom:1rem;transition:all .3s}
+.flow-content:hover{border-color:var(--accent);box-shadow:0 4px 20px var(--glow)}
+.flow-content h4{font-size:.95rem;font-weight:700;margin-bottom:.3rem}
+.flow-content p{color:var(--text2);font-size:.85rem}
+
+/* ── COMPARISON TABLE ── */
+.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);margin:1.25rem 0}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{background:var(--card2);padding:.9rem 1.1rem;text-align:left;font-weight:600;color:var(--accent);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border)}
+td{padding:.85rem 1.1rem;border-bottom:1px solid rgba(42,58,85,.5);color:var(--text2)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(79,158,255,.04)}
+.badge-green{background:rgba(0,212,170,.15);color:var(--accent3);padding:.15rem .5rem;border-radius:6px;font-size:.75rem;font-weight:600}
+.badge-red{background:rgba(255,107,107,.15);color:var(--accent4);padding:.15rem .5rem;border-radius:6px;font-size:.75rem;font-weight:600}
+.badge-yellow{background:rgba(255,209,102,.15);color:var(--accent5);padding:.15rem .5rem;border-radius:6px;font-size:.75rem;font-weight:600}
+.badge-blue{background:rgba(79,158,255,.15);color:var(--accent);padding:.15rem .5rem;border-radius:6px;font-size:.75rem;font-weight:600}
+
+/* ── CALLOUTS ── */
+.callout{border-radius:12px;padding:1.1rem 1.25rem;margin:1.25rem 0;display:flex;gap:.9rem;align-items:flex-start;border:1px solid}
+.callout.info{background:rgba(79,158,255,.08);border-color:rgba(79,158,255,.25)}
+.callout.warning{background:rgba(255,209,102,.08);border-color:rgba(255,209,102,.25)}
+.callout.success{background:rgba(0,212,170,.08);border-color:rgba(0,212,170,.25)}
+.callout.danger{background:rgba(255,107,107,.08);border-color:rgba(255,107,107,.25)}
+.callout-icon{font-size:1.2rem;flex-shrink:0;margin-top:.1rem}
+.callout-body h4{font-size:.88rem;font-weight:700;margin-bottom:.3rem}
+.callout.info .callout-body h4{color:var(--accent)}
+.callout.warning .callout-body h4{color:var(--accent5)}
+.callout.success .callout-body h4{color:var(--accent3)}
+.callout.danger .callout-body h4{color:var(--accent4)}
+.callout-body p{color:var(--text2);font-size:.85rem;line-height:1.6}
+
+/* ── EXPAND/COLLAPSE ── */
+.accordion{margin:1rem 0}
+.acc-item{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:.75rem;transition:border-color .3s}
+.acc-item.open{border-color:var(--accent)}
+.acc-header{padding:1.1rem 1.25rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1rem;user-select:none;transition:background .2s}
+.acc-header:hover{background:rgba(79,158,255,.05)}
+.acc-title{font-weight:600;font-size:.95rem;display:flex;align-items:center;gap:.75rem}
+.acc-arrow{width:24px;height:24px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,background .3s}
+.acc-item.open .acc-arrow{transform:rotate(180deg);background:var(--accent)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.acc-body-inner{padding:0 1.25rem 1.25rem;color:var(--text2);font-size:.9rem;line-height:1.7}
+
+/* ── STEPS ── */
+.steps{display:flex;flex-direction:column;gap:1rem;margin:1.25rem 0}
+.step{display:flex;gap:1.25rem;align-items:flex-start}
+.step-num{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0;box-shadow:0 4px 12px var(--glow)}
+.step-content h4{font-size:.95rem;font-weight:700;margin-bottom:.3rem}
+.step-content p{color:var(--text2);font-size:.87rem}
+
+/* ── HIGHLIGHT BOX ── */
+.highlight{background:linear-gradient(135deg,rgba(79,158,255,.08),rgba(124,92,252,.08));border:1px solid rgba(79,158,255,.2);border-radius:16px;padding:1.75rem;margin:1.5rem 0}
+.highlight h3{font-size:1.1rem;font-weight:700;margin-bottom:.75rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* ── AGENT CARDS ── */
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin:1.5rem 0}
+.agent-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.75rem;position:relative;overflow:hidden;transition:all .3s}
+.agent-card::after{content:'';position:absolute;top:-50%;right:-50%;width:200%;height:200%;background:radial-gradient(circle,var(--ag-glow) 0%,transparent 60%);opacity:0;transition:opacity .3s}
+.agent-card:hover::after{opacity:.4}
+.agent-card:hover{transform:translateY(-4px)}
+.agent-card.planner{--ag-glow:rgba(79,158,255,.2);border-top:3px solid var(--accent)}
+.agent-card.operator{--ag-glow:rgba(124,92,252,.2);border-top:3px solid var(--accent2)}
+.agent-card.checker{--ag-glow:rgba(0,212,170,.2);border-top:3px solid var(--accent3)}
+.agent-role{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem}
+.agent-card.planner .agent-role{color:var(--accent)}
+.agent-card.operator .agent-role{color:var(--accent2)}
+.agent-card.checker .agent-role{color:var(--accent3)}
+.agent-card h3{font-size:1.2rem;font-weight:800;margin-bottom:.75rem}
+.agent-card ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.agent-card ul li{color:var(--text2);font-size:.85rem;padding-left:1rem;position:relative}
+.agent-card ul li::before{content:'→';position:absolute;left:0;color:var(--text3)}
+
+/* ── TOKEN VIZ ── */
+.token-bar{margin:1rem 0}
+.token-row{display:flex;align-items:center;gap:1rem;margin-bottom:.6rem}
+.token-label{width:130px;font-size:.8rem;color:var(--text2);flex-shrink:0}
+.token-track{flex:1;background:var(--card2);border-radius:4px;height:10px;overflow:hidden}
+.token-fill{height:100%;border-radius:4px;transform:scaleX(0);transform-origin:left;transition:transform 1s ease .3s}
+.token-val{width:80px;font-size:.78rem;color:var(--text3);text-align:right;flex-shrink:0}
+
+/* ── TIPS ── */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1.25rem 0}
+.tip{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;transition:all .3s}
+.tip:hover{border-color:var(--accent3);box-shadow:0 4px 20px rgba(0,212,170,.1)}
+.tip-num{font-size:1.5rem;font-weight:900;color:var(--accent3);opacity:.4;margin-bottom:.4rem}
+.tip h4{font-size:.9rem;font-weight:700;margin-bottom:.4rem}
+.tip p{color:var(--text2);font-size:.82rem;line-height:1.6}
+
+/* ── PIPELINE ── */
+.pipeline{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin:1.5rem 0}
+.pipe-step{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.75rem 1.1rem;font-size:.82rem;font-weight:600;text-align:center;transition:all .3s;cursor:default}
+.pipe-step:hover{border-color:var(--accent);color:var(--accent)}
+.pipe-arrow{color:var(--text3);font-size:1.1rem}
+
+/* ── FOOTER ── */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem 2rem;text-align:center;color:var(--text3);font-size:.85rem}
+footer strong{color:var(--accent)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--glow)}50%{box-shadow:0 0 0 8px transparent}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+
+.pill{display:inline-block;background:var(--glow2);color:var(--accent2);border:1px solid rgba(124,92,252,.3);padding:.15rem .6rem;border-radius:8px;font-size:.75rem;font-weight:600;margin:.1rem}
+.inline-code{background:var(--code-bg);color:var(--accent3);padding:.1rem .4rem;border-radius:5px;font-family:'Fira Code',monospace;font-size:.83em;border:1px solid var(--border)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav{padding:0 1rem;gap:.5rem}
+  .nav-links a{font-size:.65rem;padding:.25rem .4rem}
+  .hero{padding:5rem 1rem 3rem}
+  .section{padding:3rem 1rem}
+  .hero-stats{gap:1.2rem}
+  .pipeline{gap:.3rem}
+  .pipe-step{font-size:.75rem;padding:.5rem .75rem}
+}
+
+/* ── TOC SIDEBAR ── */
+.toc{position:fixed;right:1.5rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.5rem;z-index:100}
+.toc-dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:all .3s;position:relative}
+.toc-dot.active,.toc-dot:hover{background:var(--accent);transform:scale(1.4)}
+.toc-dot::before{content:attr(data-label);position:absolute;right:16px;top:50%;transform:translateY(-50%);background:var(--card);border:1px solid var(--border);color:var(--text2);padding:.2rem .6rem;border-radius:6px;font-size:.7rem;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.toc-dot:hover::before{opacity:1}
+@media(max-width:1100px){.toc{display:none}}
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div class="nav-progress" id="progress"></div>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <div class="nav-logo">⚡ ARTEMIS Guide</div>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#getting-started">Getting Started</a>
+    <a href="#problem">Problem</a>
+    <a href="#perception">Perception</a>
+    <a href="#agent-loop">Agent Loop</a>
+    <a href="#adb">ADB Layer</a>
+    <a href="#mcp">MCP Protocol</a>
+    <a href="#flutter">Flutter UIs</a>
+    <a href="#pro-mode">Pro Mode</a>
+    <a href="#apk-vs-code">APK vs Code</a>
+    <a href="#cicd">CI/CD</a>
+    <a href="#benchmark">Benchmark</a>
+    <a href="#prompts">Prompt Writing</a>
+    <a href="#tokens">Token Costs</a>
+    <a href="#web-console">Web Console</a>
+    <a href="#trace">Trace System</a>
+    <a href="#config">Config</a>
+    <a href="#sdk">Python SDK</a>
+    <a href="#security">Security</a>
+    <a href="#comparison">vs Appium</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#rules-md">rules.md</a>
+    <a href="#terminal">Terminal Mode</a>
+    <a href="#analytics">Analytics QA</a>
+  </div>
+</nav>
+
+<!-- TOC Dots -->
+<div class="toc">
+  <div class="toc-dot" data-label="Overview" data-target="overview"></div>
+  <div class="toc-dot" data-label="Get Started" data-target="getting-started"></div>
+  <div class="toc-dot" data-label="Problem" data-target="problem"></div>
+  <div class="toc-dot" data-label="Perception" data-target="perception"></div>
+  <div class="toc-dot" data-label="Agent Loop" data-target="agent-loop"></div>
+  <div class="toc-dot" data-label="ADB Layer" data-target="adb"></div>
+  <div class="toc-dot" data-label="MCP Protocol" data-target="mcp"></div>
+  <div class="toc-dot" data-label="Flutter UIs" data-target="flutter"></div>
+  <div class="toc-dot" data-label="Pro Mode" data-target="pro-mode"></div>
+  <div class="toc-dot" data-label="APK vs Code" data-target="apk-vs-code"></div>
+  <div class="toc-dot" data-label="CI/CD" data-target="cicd"></div>
+  <div class="toc-dot" data-label="Benchmark" data-target="benchmark"></div>
+  <div class="toc-dot" data-label="Prompts" data-target="prompts"></div>
+  <div class="toc-dot" data-label="Tokens" data-target="tokens"></div>
+  <div class="toc-dot" data-label="Web Console" data-target="web-console"></div>
+  <div class="toc-dot" data-label="Trace" data-target="trace"></div>
+  <div class="toc-dot" data-label="Config" data-target="config"></div>
+  <div class="toc-dot" data-label="SDK" data-target="sdk"></div>
+  <div class="toc-dot" data-label="Security" data-target="security"></div>
+  <div class="toc-dot" data-label="vs Appium" data-target="comparison"></div>
+  <div class="toc-dot" data-label="Roadmap" data-target="roadmap"></div>
+  <div class="toc-dot" data-label="rules.md" data-target="rules-md"></div>
+  <div class="toc-dot" data-label="Terminal" data-target="terminal"></div>
+  <div class="toc-dot" data-label="Analytics" data-target="analytics"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div style="position:relative;z-index:1">
+    <div class="badge">🤖 Google Open Source · Apache 2.0</div>
+    <h1>ARTEMIS<br><span>Complete Reference Guide</span></h1>
+    <p class="hero-sub">Android automation powered by natural language. Everything you need to know — from how it understands your instructions to how it executes them on a real device.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">99.1%</div><div class="stat-label">AndroidWorld Score</div></div>
+      <div class="stat"><div class="stat-num">116</div><div class="stat-label">Benchmark Tasks</div></div>
+      <div class="stat"><div class="stat-num">3–5s</div><div class="stat-label">Per Step (Flash)</div></div>
+      <div class="stat"><div class="stat-num">5</div><div class="stat-label">MCP Tools</div></div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll to explore</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ SECTION 1 — OVERVIEW -->
+<section class="section" id="overview">
+  <div class="section-header">
+    <div class="section-tag">Section 01</div>
+    <h2 class="section-title">What is ARTEMIS?</h2>
+    <p class="section-desc">An Android automation framework that converts natural language instructions into reliable, executable actions on real Android devices.</p>
+  </div>
+
+  <div class="cards cards-3">
+    <div class="card">
+      <div class="card-icon blue">🧠</div>
+      <h3>Natural Language Input</h3>
+      <p>You write plain English instructions. ARTEMIS understands them and figures out how to execute them step by step — no scripting required.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon purple">📱</div>
+      <h3>Real Device Control</h3>
+      <p>Drives actual Android devices or emulators via ADB. Everything you see happen on screen is a real interaction — not a simulation.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green">🔗</div>
+      <h3>MCP Integration</h3>
+      <p>Exposes 5 tools via the Model Context Protocol, letting AI assistants like Claude Code drive your device directly from the IDE.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon yellow">⚡</div>
+      <h3>Two Execution Profiles</h3>
+      <p><strong>Flash</strong>: Fast reactive loop (3–5s/step) for simple tasks. <strong>Pro</strong>: Multi-agent planning and verification (15–40s/step) for complex workflows.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon red">🎯</div>
+      <h3>Dynamic-First Targeting</h3>
+      <p>Uses the accessibility tree first for precise element targeting, with visual/coordinate fallback for custom UIs like Flutter canvas.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon blue">📊</div>
+      <h3>Multi-Model Support</h3>
+      <p>Works with Gemini, Claude, GPT-4o, and Qwen-VL. Switch the underlying vision model in <span class="inline-code">artemis.jsonc</span> without changing your tests.</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <h3>Quick Start</h3>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">bash</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="cm"># Clone and start ARTEMIS</span>
+git clone https://github.com/google/artemis.git && cd artemis
+./start.sh
+
+<span class="cm"># Opens web console at http://localhost:8000</span>
+<span class="cm"># Connect your Android device or emulator via ADB first</span>
+adb devices</pre></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION — GETTING STARTED -->
+<section class="section" id="getting-started">
+  <div class="section-header">
+    <div class="section-tag">Section 02</div>
+    <h2 class="section-title">Getting Started — From Zero to First Run</h2>
+    <p class="section-desc">Everything you need to install, configure, and run your first task — in order. Follow these steps once and ARTEMIS is ready to use forever.</p>
+  </div>
+
+  <!-- STEP 0: Prerequisites -->
+  <h3 style="margin-bottom:1.25rem">Step 0 — Prerequisites</h3>
+  <div class="cards cards-3" style="margin-bottom:2rem">
+    <div class="card">
+      <div class="card-icon blue">🐍</div>
+      <h3>Python 3.12+</h3>
+      <div class="code-block" style="margin-top:.75rem">
+        <div class="code-body"><pre><span class="cm"># Check your version</span>
+python3 --version
+<span class="cm"># Python 3.12.x ✅</span>
+
+<span class="cm"># Install uv (fast package manager)</span>
+curl -LsSf https://astral.sh/uv/install.sh | sh</pre></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon green">📱</div>
+      <h3>Android Device or Emulator</h3>
+      <div class="code-block" style="margin-top:.75rem">
+        <div class="code-body"><pre><span class="cm"># Real device:</span>
+<span class="cm"># Settings → Developer Options</span>
+<span class="cm"># → USB Debugging ON</span>
+<span class="cm"># → plug in USB cable</span>
+
+<span class="cm"># Emulator: Android Studio</span>
+<span class="cm"># → Device Manager → Create</span>
+<span class="cm"># → Pixel 6, API 34</span></pre></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon purple">🔑</div>
+      <h3>API Key</h3>
+      <div class="code-block" style="margin-top:.75rem">
+        <div class="code-body"><pre><span class="cm"># Pick one provider:</span>
+
+<span class="cm"># Gemini (recommended — cheapest)</span>
+<span class="cm"># aistudio.google.com/apikey</span>
+
+<span class="cm"># Anthropic (Claude)</span>
+<span class="cm"># console.anthropic.com</span>
+
+<span class="cm"># OpenAI (GPT-4o)</span>
+<span class="cm"># platform.openai.com/api-keys</span></pre></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 1: Installation -->
+  <h3 style="margin-bottom:1.25rem">Step 1 — Installation</h3>
+  <div class="steps" style="margin-bottom:2rem">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Clone the repository</h4>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">bash</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre>git clone https://github.com/google/artemis.git
+cd artemis</pre></div>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Install dependencies</h4>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">bash</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre>uv sync
+<span class="cm"># Downloads and installs all Python dependencies</span>
+<span class="cm"># Takes ~30 seconds on first run</span></pre></div>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Set your API key</h4>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">bash</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm"># Create .env file in the artemis/ folder</span>
+<span class="cm"># (never commit this file!)</span>
+
+<span class="cm"># If using Gemini:</span>
+echo <span class="str">"GEMINI_API_KEY=your_key_here"</span> > .env
+
+<span class="cm"># If using Anthropic (Claude):</span>
+echo <span class="str">"ANTHROPIC_API_KEY=your_key_here"</span> > .env
+
+<span class="cm"># If using OpenAI:</span>
+echo <span class="str">"OPENAI_API_KEY=your_key_here"</span> > .env</pre></div>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Set your provider in config</h4>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">jsonc — artemis.config.jsonc</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre>{
+  <span class="str">"model"</span>: {
+    <span class="str">"provider"</span>: <span class="str">"gemini"</span>,        <span class="cm">// or "anthropic" or "openai"</span>
+    <span class="str">"flash_model"</span>: <span class="str">"gemini-2.0-flash"</span>,
+    <span class="str">"pro_model"</span>: <span class="str">"gemini-1.5-pro"</span>
+  }
+}</pre></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: Device Setup -->
+  <h3 style="margin-bottom:1.25rem">Step 2 — Connect Your Device</h3>
+  <div class="code-block" style="margin-bottom:2rem">
+    <div class="code-header"><span class="code-lang">bash — verify ADB connection</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="cm"># Check if ADB sees your device</span>
+adb devices
+
+<span class="cm"># Expected output:</span>
+<span class="cm"># List of devices attached</span>
+<span class="cm"># emulator-5554   device   ← emulator connected ✅</span>
+<span class="cm"># R3CN90XXXXX     device   ← real device connected ✅</span>
+
+<span class="cm"># If you see "unauthorized" → check your phone screen</span>
+<span class="cm"># and tap "Allow USB Debugging"</span>
+
+<span class="cm"># If you see nothing → USB Debugging is off</span>
+<span class="cm"># Settings → About Phone → tap Build Number 7 times</span>
+<span class="cm"># → Developer Options → USB Debugging ON</span>
+
+<span class="cm"># Start an emulator (if no real device):</span>
+emulator -avd Pixel_6_API_34 -no-snapshot-load &
+adb wait-for-device  <span class="cm"># wait until it's ready</span></pre></div>
+  </div>
+
+  <!-- STEP 3: First Run -->
+  <h3 style="margin-bottom:1.25rem">Step 3 — Start ARTEMIS &amp; Run First Task</h3>
+  <div class="cards cards-2" style="margin-bottom:2rem">
+    <div class="card">
+      <div class="card-icon green">🌐</div>
+      <h3>Option A — Web Console (Recommended for beginners)</h3>
+      <div class="code-block" style="margin-top:.75rem">
+        <div class="code-header"><span class="code-lang">bash</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+        <div class="code-body"><pre><span class="cm"># Start server + open browser</span>
+uv run artemis ui
+
+<span class="cm"># Opens http://localhost:8000</span>
+<span class="cm"># Type your task in the text box</span>
+<span class="cm"># Choose Flash or Pro</span>
+<span class="cm"># Hit Run and watch it execute live</span></pre></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon blue">💻</div>
+      <h3>Option B — Terminal (Fastest)</h3>
+      <div class="code-block" style="margin-top:.75rem">
+        <div class="code-header"><span class="code-lang">bash</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+        <div class="code-body"><pre><span class="cm"># Run a task directly from terminal</span>
+uv run artemis run \
+  <span class="str">"Open settings and read the Android version"</span> \
+  --profile flash
+
+<span class="cm"># Watch it execute, then prints:</span>
+<span class="cm"># ✅ Task completed in 4 turns (12.3s)</span>
+<span class="cm"># Trace ID: flash-abc123</span></pre></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <div class="callout-icon">✅</div>
+    <div class="callout-body"><h4>Good First Tasks to Try</h4><p>Start simple to verify everything works: <span class="inline-code">"Open the Settings app and tell me what Android version is installed"</span> — this needs no special app, works on any device, and completes in ~3 turns. If this works, ARTEMIS is fully set up.</p></div>
+  </div>
+
+  <!-- STEP 4: MCP with Claude Code -->
+  <h3 style="margin:2rem 0 1.25rem">Step 4 — Connect to Claude Code (Optional but Powerful)</h3>
+  <div class="steps" style="margin-bottom:2rem">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Start ARTEMIS MCP server</h4>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">bash</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm"># Start server with MCP enabled (runs in background)</span>
+uv run artemis start
+
+<span class="cm"># Verify it's running</span>
+uv run artemis status
+<span class="cm"># ARTEMIS server: running on port 8000 ✅</span>
+<span class="cm"># MCP server: running on port 8001 ✅</span></pre></div>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Install rules.md into Claude Code</h4>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">bash</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm"># ARTEMIS installer handles this automatically</span>
+uv run artemis install-rules
+
+<span class="cm"># Installs to: ~/.claude/rules/artemis.md</span>
+<span class="cm"># Claude Code will now know how to use ARTEMIS correctly</span></pre></div>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Add ARTEMIS to Claude Code's MCP config</h4>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">json — ~/.claude/mcp_servers.json</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre>{
+  <span class="str">"mcpServers"</span>: {
+    <span class="str">"artemis"</span>: {
+      <span class="str">"command"</span>: <span class="str">"uv"</span>,
+      <span class="str">"args"</span>: [<span class="str">"run"</span>, <span class="str">"artemis"</span>, <span class="str">"mcp"</span>],
+      <span class="str">"cwd"</span>: <span class="str">"/path/to/artemis"</span>   <span class="cm">← your clone path</span>
+    }
+  }
+}</pre></div>
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Restart Claude Code and verify</h4>
+        <p>Restart Claude Code. In a new chat, type: <span class="inline-code">"What Android device is connected?"</span> — Claude Code should automatically call <span class="inline-code">mobile_get_device_state</span> and show you a screenshot of your device screen.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5: First pytest -->
+  <h3 style="margin-bottom:1.25rem">Step 5 — Your First Automated Test</h3>
+  <div class="code-block" style="margin-bottom:1rem">
+    <div class="code-header"><span class="code-lang">bash — install test dependencies</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre>pip install artemis-client pytest pytest-asyncio --break-system-packages</pre></div>
+  </div>
+  <div class="code-block" style="margin-bottom:1rem">
+    <div class="code-header"><span class="code-lang">python — test_first.py</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="kw">import</span> pytest
+<span class="kw">from</span> artemis_client <span class="kw">import</span> ArtemisClient
+
+<span class="tag">@pytest.mark.asyncio</span>
+<span class="kw">async def</span> <span class="fn">test_my_first_artemis_test</span>():
+    client = <span class="fn">ArtemisClient</span>(<span class="str">"http://localhost:8000"</span>)
+
+    result = <span class="kw">await</span> client.<span class="fn">run</span>(
+        <span class="str">"Open the Settings app and verify it loads correctly"</span>,
+        profile=<span class="str">"flash"</span>
+    )
+
+    <span class="fn">assert</span> result.succeeded, <span class="str">f"Test failed: {result.error}"</span>
+    <span class="fn">print</span>(<span class="str">f"✅ Passed in {result.steps_taken} steps!"</span>)</pre></div>
+  </div>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">bash — run the test</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="cm"># Make sure ARTEMIS server is running first!</span>
+uv run artemis start
+
+<span class="cm"># Run the test</span>
+python -m pytest test_first.py -v
+
+<span class="cm"># Expected output:</span>
+<span class="cm"># PASSED test_first.py::test_my_first_artemis_test</span>
+<span class="cm"># ✅ Passed in 3 steps!</span></pre></div>
+  </div>
+
+  <!-- Quick Reference Summary -->
+  <div class="highlight" style="margin-top:2rem">
+    <h3>Quick Reference — Commands You'll Use Every Day</h3>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">bash — daily commands</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="cm"># Start ARTEMIS (do this once, leave it running)</span>
+uv run artemis start
+
+<span class="cm"># Run a task from terminal</span>
+uv run artemis run <span class="str">"your task here"</span> --profile flash
+
+<span class="cm"># Open web console</span>
+uv run artemis ui
+
+<span class="cm"># Check status</span>
+uv run artemis status
+
+<span class="cm"># View last run trace</span>
+uv run artemis traces
+
+<span class="cm"># Run your pytest tests</span>
+python -m pytest e2e_tests/ -v
+
+<span class="cm"># Stop server</span>
+uv run artemis stop</pre></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body"><h4>Common First-Run Issues</h4><p><strong>"No device found"</strong> → run <span class="inline-code">adb devices</span> and make sure it shows your device. <strong>"API key invalid"</strong> → check your <span class="inline-code">.env</span> file is in the <span class="inline-code">artemis/</span> folder. <strong>"Server not responding"</strong> → run <span class="inline-code">uv run artemis status</span> then <span class="inline-code">uv run artemis restart</span>. <strong>"Task always fails"</strong> → open Web Console and watch it — the screenshot will tell you what's wrong.</p></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 3 — PROBLEM -->
+<section class="section" id="problem">
+  <div class="section-header">
+    <div class="section-tag">Section 03</div>
+    <h2 class="section-title">The Problem ARTEMIS Solves</h2>
+    <p class="section-desc">Traditional Android testing frameworks are brittle, verbose, and can't handle real-world complexity.</p>
+  </div>
+
+  <div class="cards cards-2">
+    <div class="card">
+      <div class="card-icon red">❌</div>
+      <h3>Traditional Testing (Before ARTEMIS)</h3>
+      <div class="code-block" style="margin-top:1rem">
+        <div class="code-header"><span class="code-lang">kotlin</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+        <div class="code-body"><pre><span class="cm">// Espresso / UIAutomator — brittle and verbose</span>
+<span class="fn">onView</span>(<span class="fn">withId</span>(R.id.email_field))
+    .<span class="fn">perform</span>(<span class="fn">click</span>())
+<span class="fn">onView</span>(<span class="fn">withId</span>(R.id.email_field))
+    .<span class="fn">perform</span>(<span class="fn">typeText</span>(<span class="str">"test@email.com"</span>))
+<span class="fn">onView</span>(<span class="fn">withId</span>(R.id.login_button))
+    .<span class="fn">perform</span>(<span class="fn">click</span>())
+<span class="fn">onView</span>(<span class="fn">withText</span>(<span class="str">"Dashboard"</span>))
+    .<span class="fn">check</span>(<span class="fn">matches</span>(<span class="fn">isDisplayed</span>()))</pre></div>
+      </div>
+      <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2)">Breaks if any ID or text changes. No cross-app testing. Kotlin knowledge required.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green">✅</div>
+      <h3>With ARTEMIS</h3>
+      <div class="code-block" style="margin-top:1rem">
+        <div class="code-header"><span class="code-lang">natural language</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+        <div class="code-body"><pre><span class="str">"Login with test@email.com / Pass123,</span>
+<span class="str"> verify dashboard loads correctly"</span></pre></div>
+      </div>
+      <p style="margin-top:.75rem;font-size:.85rem;color:var(--text2)">Resilient to UI changes. Cross-app capable. No Kotlin needed. Works on any Android app.</p>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:2rem">
+    <table>
+      <thead><tr><th>Problem</th><th>Traditional Testing</th><th>ARTEMIS</th></tr></thead>
+      <tbody>
+        <tr><td>UI Changes</td><td><span class="badge-red">Breaks tests</span></td><td><span class="badge-green">Adapts automatically</span></td></tr>
+        <tr><td>Cross-app workflows</td><td><span class="badge-red">Not possible</span></td><td><span class="badge-green">Native support</span></td></tr>
+        <tr><td>Language required</td><td><span class="badge-yellow">Kotlin / Java</span></td><td><span class="badge-green">Plain English</span></td></tr>
+        <tr><td>Setup time</td><td><span class="badge-red">Hours per test</span></td><td><span class="badge-green">Minutes per suite</span></td></tr>
+        <tr><td>Flutter custom UIs</td><td><span class="badge-red">Very difficult</span></td><td><span class="badge-green">Visual fallback</span></td></tr>
+        <tr><td>Recovery on failure</td><td><span class="badge-red">None</span></td><td><span class="badge-green">Auto-recovery (Pro)</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 3 — PERCEPTION -->
+<section class="section" id="perception">
+  <div class="section-header">
+    <div class="section-tag">Section 03</div>
+    <h2 class="section-title">How ARTEMIS Sees the Screen</h2>
+    <p class="section-desc">Three-layer perception system — prioritizing structured data over visual inference for speed and accuracy.</p>
+  </div>
+
+  <div class="cards cards-3" style="margin-bottom:2rem">
+    <div class="card">
+      <div class="card-icon green">🌳</div>
+      <h3>Layer 1 — Accessibility Helper</h3>
+      <p>An Android Accessibility Service installed on the device. Reads the full UI tree as structured XML — element class, text, bounds, resource-id, clickability. <strong>Fastest and most accurate.</strong></p>
+    </div>
+    <div class="card">
+      <div class="card-icon yellow">🔧</div>
+      <h3>Layer 2 — UIAutomator2</h3>
+      <p>Standard Android tool that dumps the UI hierarchy. Used as a fallback if the Accessibility Helper is disabled or unavailable. Slightly slower but same concept.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon red">👁️</div>
+      <h3>Layer 3 — Visual / OCR</h3>
+      <p>Last resort: captures a screenshot and sends it to a Vision LLM (Gemini/GPT-4o) to identify element coordinates. Used for Flutter canvas, custom Compose, and any surface not in the tree.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:1rem">What the Accessibility Tree Looks Like</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">xml — accessibility tree dump</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="tag">&lt;hierarchy&gt;</span>
+  <span class="tag">&lt;node</span> <span class="attr">index</span>=<span class="val">"0"</span> <span class="attr">text</span>=<span class="val">"Welcome Back"</span>
+        <span class="attr">class</span>=<span class="val">"android.widget.TextView"</span>
+        <span class="attr">bounds</span>=<span class="val">"[0,100][1080,180]"</span><span class="tag">/&gt;</span>
+
+  <span class="tag">&lt;node</span> <span class="attr">index</span>=<span class="val">"1"</span> <span class="attr">text</span>=<span class="val">""</span> <span class="attr">hint</span>=<span class="val">"Email address"</span>
+        <span class="attr">class</span>=<span class="val">"android.widget.EditText"</span>
+        <span class="attr">resource-id</span>=<span class="val">"com.myapp:id/email-field"</span>
+        <span class="attr">clickable</span>=<span class="val">"true"</span>
+        <span class="attr">bounds</span>=<span class="val">"[24,220][1056,300]"</span><span class="tag">/&gt;</span>
+
+  <span class="tag">&lt;node</span> <span class="attr">index</span>=<span class="val">"2"</span> <span class="attr">text</span>=<span class="val">""</span> <span class="attr">hint</span>=<span class="val">"Password"</span>
+        <span class="attr">class</span>=<span class="val">"android.widget.EditText"</span>
+        <span class="attr">resource-id</span>=<span class="val">"com.myapp:id/password-field"</span>
+        <span class="attr">clickable</span>=<span class="val">"true"</span>
+        <span class="attr">bounds</span>=<span class="val">"[24,320][1056,400]"</span><span class="tag">/&gt;</span>
+
+  <span class="tag">&lt;node</span> <span class="attr">index</span>=<span class="val">"3"</span> <span class="attr">text</span>=<span class="val">"Sign In"</span>
+        <span class="attr">class</span>=<span class="val">"android.widget.Button"</span>
+        <span class="attr">resource-id</span>=<span class="val">"com.myapp:id/login-button"</span>
+        <span class="attr">clickable</span>=<span class="val">"true"</span>
+        <span class="attr">bounds</span>=<span class="val">"[24,440][1056,520]"</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/hierarchy&gt;</span></pre></div>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><h4>Dynamic-First, Coordinate-Fallback</h4><p>ARTEMIS always tries to use element indices from the accessibility tree first (fast, precise, doesn't break on UI scale changes). Only if an element isn't in the tree does it fall back to screen coordinates from the vision model (slower, more expensive).</p></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 4 — AGENT LOOP -->
+<section class="section" id="agent-loop">
+  <div class="section-header">
+    <div class="section-tag">Section 04</div>
+    <h2 class="section-title">How ARTEMIS Understands &amp; Executes</h2>
+    <p class="section-desc">From your plain-text instruction to a real tap on the screen — every step explained.</p>
+  </div>
+
+  <h3 style="margin-bottom:1.25rem">The 5-Phase Execution Loop</h3>
+  <div class="flow">
+    <div class="flow-item">
+      <div class="flow-icon">✍️</div>
+      <div class="flow-content">
+        <h4>Phase 1 — You Write the Task</h4>
+        <p>Plain English: <span class="inline-code">"Login with test@email.com / Pass123, verify dashboard loads"</span>. No special syntax, no formatting rules — just describe what you want.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">🏗️</div>
+      <div class="flow-content">
+        <h4>Phase 2 — ARTEMIS Builds the Context</h4>
+        <p>Assembles 4 layers into one LLM message: <strong>System Prompt</strong> (instructions for the agent) + <strong>Your Task</strong> + <strong>Current UI Tree XML</strong> + <strong>Screenshot</strong> + <strong>Compressed History</strong> of previous turns.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">🧠</div>
+      <div class="flow-content">
+        <h4>Phase 3 — LLM Reasons and Returns ONE Action</h4>
+        <p>The vision LLM (Gemini/Claude) reads everything and responds with a single JSON action. Always one action per turn — never a batch.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">⚙️</div>
+      <div class="flow-content">
+        <h4>Phase 4 — ARTEMIS Translates to ADB</h4>
+        <p>Parses the JSON, finds the element in the tree, calculates center coordinates, and sends the ADB command to the device.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">🔄</div>
+      <div class="flow-content">
+        <h4>Phase 5 — Observe Result and Repeat</h4>
+        <p>Captures a new screenshot and UI tree, checks if the action worked, adds the result to history, and loops back to Phase 2 — until task is done or max turns reached.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">What the LLM Actually Receives Each Turn</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">llm input — assembled each turn</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="cm">// ── LAYER 1: System Prompt (fixed every turn) ──</span>
+You are ARTEMIS, an Android automation agent.
+Respond ONLY with valid JSON in this exact format:
+{
+  <span class="str">"thought"</span>: <span class="str">"your reasoning here"</span>,
+  <span class="str">"action"</span>: <span class="str">"tap|swipe|type|scroll|back|home|wait|done|fail"</span>,
+  <span class="str">"target"</span>: { <span class="str">"index"</span>: <span class="num">3</span>, <span class="str">"resource_id"</span>: <span class="str">"..."</span> },
+  <span class="str">"value"</span>: <span class="str">"text to type (if applicable)"</span>
+}
+
+<span class="cm">// ── LAYER 2: Your Task ──</span>
+TASK: Login with test@email.com / Pass123, verify dashboard
+PROFILE: flash | MAX_TURNS: 30
+
+<span class="cm">// ── LAYER 3: Current UI State ──</span>
+&lt;hierarchy&gt;
+  &lt;node index="1" text="" hint="Email" class="EditText"
+        resource-id="com.app:id/email" clickable="true"/&gt;
+  &lt;node index="2" ... /&gt;
+  &lt;node index="3" text="Sign In" class="Button" clickable="true"/&gt;
+&lt;/hierarchy&gt;
+[SCREENSHOT: base64 image attached]
+
+<span class="cm">// ── LAYER 4: History (compressed) ──</span>
+Turn 1: opened_app → success, saw login screen
+Turn 2: tapped(index=1, email_field) → focused</pre></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">What the LLM Returns</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">json — llm response (one action per turn)</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre>{
+  <span class="str">"thought"</span>: <span class="str">"Email field is at index 1 with resource-id email-field.</span>
+<span class="str">             I need to tap it first, then type the email address."</span>,
+  <span class="str">"action"</span>: <span class="str">"tap"</span>,
+  <span class="str">"target"</span>: {
+    <span class="str">"index"</span>: <span class="num">1</span>,
+    <span class="str">"resource_id"</span>: <span class="str">"com.myapp:id/email-field"</span>,
+    <span class="str">"text"</span>: <span class="str">"Email address"</span>
+  },
+  <span class="str">"value"</span>: <span class="kw">null</span>
+}</pre></div>
+  </div>
+
+  <div class="callout warning">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body"><h4>Two LLMs Working Together</h4><p>There are actually <strong>two LLMs</strong> involved: (1) The <strong>outer LLM</strong> (Claude Code / Windsurf) decides to call ARTEMIS and what task to give it. (2) The <strong>inner LLM</strong> (Gemini/Claude inside ARTEMIS) decides each individual action on screen. They're completely separate.</p></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 5 — ADB -->
+<section class="section" id="adb">
+  <div class="section-header">
+    <div class="section-tag">Section 05</div>
+    <h2 class="section-title">The ADB Execution Layer</h2>
+    <p class="section-desc">Every action ultimately becomes an ADB command sent from your host machine to the Android device.</p>
+  </div>
+
+  <div class="cards cards-2" style="margin-bottom:2rem">
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">adb — action translations</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+      <div class="code-body"><pre><span class="cm"># Tap an element</span>
+adb shell input tap <span class="num">540</span> <span class="num">1200</span>
+
+<span class="cm"># Type text</span>
+adb shell input text <span class="str">"hello@gmail.com"</span>
+
+<span class="cm"># Swipe (scroll down)</span>
+adb shell input swipe <span class="num">540</span> <span class="num">1500</span> <span class="num">540</span> <span class="num">500</span> <span class="num">300</span>
+
+<span class="cm"># Press back</span>
+adb shell input keyevent KEYCODE_BACK
+
+<span class="cm"># Press home</span>
+adb shell input keyevent KEYCODE_HOME
+
+<span class="cm"># Start app</span>
+adb shell am start -n com.pkg/.MainActivity
+
+<span class="cm"># Capture screenshot</span>
+adb shell screencap -p /sdcard/s.png
+adb pull /sdcard/s.png ./screenshot.png</pre></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div class="card">
+        <div class="card-icon green">⚡</div>
+        <h3>Action Burst</h3>
+        <p>For rapid sequential actions (e.g. swipe + tap on a tooltip that appears for 1 second), ARTEMIS executes them as a single burst without waiting for a new LLM turn. Beats transient UI timing.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon blue">🎯</div>
+        <h3>Coordinate Calculation</h3>
+        <p>When an element is found in the accessibility tree, ARTEMIS calculates its center point from the <span class="inline-code">bounds</span> attribute and uses that for the ADB tap command — never hardcoded coordinates.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout success">
+    <div class="callout-icon">✅</div>
+    <div class="callout-body"><h4>How Coordinates Are Calculated</h4><p>If element bounds are <span class="inline-code">[24,440][1056,520]</span>, center X = (24+1056)/2 = 540, center Y = (440+520)/2 = 480. ARTEMIS sends <span class="inline-code">adb shell input tap 540 480</span>.</p></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 6 — MCP -->
+<section class="section" id="mcp">
+  <div class="section-header">
+    <div class="section-tag">Section 06</div>
+    <h2 class="section-title">The MCP Protocol — Deep Dive</h2>
+    <p class="section-desc">Model Context Protocol: the standardized bridge that lets AI assistants call external tools like ARTEMIS.</p>
+  </div>
+
+  <div class="highlight">
+    <h3>Why MCP Exists</h3>
+    <p style="color:var(--text2)">Before MCP, every AI tool integration was custom-built. MCP is the <strong>USB-C of AI integrations</strong> — one standardized protocol that works with any compatible tool and any compatible AI assistant. ARTEMIS implements MCP natively, so Claude Code, Cursor, Windsurf, and Codex can all drive your Android device with zero custom code.</p>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">The 3 Layers</h3>
+  <div class="cards cards-3">
+    <div class="card">
+      <div class="card-icon blue">🖥️</div>
+      <h3>HOST</h3>
+      <p>The application you're using — Claude Code, Cursor, Windsurf. It contains the MCP client and manages connections to MCP servers.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon purple">🔌</div>
+      <h3>MCP CLIENT</h3>
+      <p>The internal component inside the host that speaks JSON-RPC 2.0 to MCP servers. Handles discovery, execution, and progress notifications.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green">⚙️</div>
+      <h3>MCP SERVER</h3>
+      <p>ARTEMIS. Exposes tools the AI can call. Runs locally as a child process (stdio transport) or remotely via Streamable HTTP.</p>
+    </div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">The Complete Lifecycle</h3>
+  <div class="accordion">
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🤝</span> Step 1 — Initialization (Handshake)</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-body-inner">
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">json-rpc — handshake</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+            <div class="code-body"><pre><span class="cm">// Claude Code → ARTEMIS</span>
+{
+  <span class="str">"jsonrpc"</span>: <span class="str">"2.0"</span>, <span class="str">"id"</span>: <span class="num">1</span>, <span class="str">"method"</span>: <span class="str">"initialize"</span>,
+  <span class="str">"params"</span>: {
+    <span class="str">"protocolVersion"</span>: <span class="str">"2025-11-25"</span>,
+    <span class="str">"clientInfo"</span>: { <span class="str">"name"</span>: <span class="str">"claude-code"</span>, <span class="str">"version"</span>: <span class="str">"1.0.0"</span> },
+    <span class="str">"capabilities"</span>: { <span class="str">"sampling"</span>: {} }
+  }
+}
+<span class="cm">// ARTEMIS → Claude Code (agrees on version + capabilities)</span>
+{
+  <span class="str">"jsonrpc"</span>: <span class="str">"2.0"</span>, <span class="str">"id"</span>: <span class="num">1</span>,
+  <span class="str">"result"</span>: {
+    <span class="str">"protocolVersion"</span>: <span class="str">"2025-11-25"</span>,
+    <span class="str">"serverInfo"</span>: { <span class="str">"name"</span>: <span class="str">"artemis-mcp"</span>, <span class="str">"version"</span>: <span class="str">"1.0.0"</span> },
+    <span class="str">"capabilities"</span>: { <span class="str">"tools"</span>: {} }
+  }
+}</pre></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🔍</span> Step 2 — Discovery (What tools exist?)</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-body-inner">
+          <p style="margin-bottom:1rem">Claude Code asks for all available tools. ARTEMIS responds with full schemas — including which parameters are required vs optional, and what types they expect.</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">json-rpc — tools/list</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+            <div class="code-body"><pre>{
+  <span class="str">"jsonrpc"</span>: <span class="str">"2.0"</span>, <span class="str">"id"</span>: <span class="num">2</span>, <span class="str">"method"</span>: <span class="str">"tools/list"</span>
+}
+<span class="cm">// ARTEMIS returns all 5 tools with full JSON Schema</span>
+{
+  <span class="str">"result"</span>: {
+    <span class="str">"tools"</span>: [
+      {
+        <span class="str">"name"</span>: <span class="str">"mobile_run_task"</span>,
+        <span class="str">"description"</span>: <span class="str">"Run a natural language task on Android"</span>,
+        <span class="str">"inputSchema"</span>: {
+          <span class="str">"properties"</span>: {
+            <span class="str">"task"</span>: { <span class="str">"type"</span>: <span class="str">"string"</span> },
+            <span class="str">"profile"</span>: { <span class="str">"enum"</span>: [<span class="str">"flash"</span>, <span class="str">"pro"</span>] }
+          },
+          <span class="str">"required"</span>: [<span class="str">"task"</span>]
+        }
+      }
+      <span class="cm">// + 4 more tools...</span>
+    ]
+  }
+}</pre></div>
+          </div>
+          <div class="table-wrap" style="margin-top:1rem">
+            <table>
+              <thead><tr><th>Tool</th><th>What it does</th></tr></thead>
+              <tbody>
+                <tr><td><span class="inline-code">mobile_run_task</span></td><td>Run a natural language task on the device</td></tr>
+                <tr><td><span class="inline-code">mobile_manage_task</span></td><td>Check status, pause, or cancel a running task</td></tr>
+                <tr><td><span class="inline-code">mobile_get_device_state</span></td><td>Get current screenshot + UI tree</td></tr>
+                <tr><td><span class="inline-code">mobile_inspect_trace</span></td><td>Get full history of actions + screenshots</td></tr>
+                <tr><td><span class="inline-code">mobile_diagnose</span></td><td>Get Logcat output + device diagnostics</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>▶️</span> Step 3 — Execution (tools/call)</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-body-inner">
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">json-rpc — full call + response</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+            <div class="code-body"><pre><span class="cm">// Claude Code calls mobile_run_task</span>
+{
+  <span class="str">"jsonrpc"</span>: <span class="str">"2.0"</span>, <span class="str">"id"</span>: <span class="num">7</span>, <span class="str">"method"</span>: <span class="str">"tools/call"</span>,
+  <span class="str">"params"</span>: {
+    <span class="str">"name"</span>: <span class="str">"mobile_run_task"</span>,
+    <span class="str">"arguments"</span>: {
+      <span class="str">"task"</span>: <span class="str">"Login with test@app.com, verify dashboard"</span>,
+      <span class="str">"profile"</span>: <span class="str">"flash"</span>
+    }
+  }
+}
+<span class="cm">// During execution — progress notifications (no id!)</span>
+{
+  <span class="str">"jsonrpc"</span>: <span class="str">"2.0"</span>, <span class="str">"method"</span>: <span class="str">"notifications/progress"</span>,
+  <span class="str">"params"</span>: { <span class="str">"progress"</span>: <span class="num">4</span>, <span class="str">"total"</span>: <span class="num">12</span>,
+               <span class="str">"message"</span>: <span class="str">"Tapping login button..."</span> }
+}
+<span class="cm">// Final response</span>
+{
+  <span class="str">"jsonrpc"</span>: <span class="str">"2.0"</span>, <span class="str">"id"</span>: <span class="num">7</span>,
+  <span class="str">"result"</span>: {
+    <span class="str">"content"</span>: [
+      { <span class="str">"type"</span>: <span class="str">"text"</span>,
+        <span class="str">"text"</span>: <span class="str">"Login succeeded. Dashboard loaded."</span> },
+      { <span class="str">"type"</span>: <span class="str">"image"</span>, <span class="str">"data"</span>: <span class="str">"iVBOR..."</span>,
+        <span class="str">"mimeType"</span>: <span class="str">"image/png"</span> }
+    ],
+    <span class="str">"isError"</span>: <span class="kw">false</span>
+  }
+}</pre></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🔌</span> Step 4 — Transport: stdio vs HTTP</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-body-inner">
+          <div class="cards cards-2">
+            <div class="card">
+              <h3>stdio (ARTEMIS default)</h3>
+              <p style="color:var(--text2);font-size:.88rem">Claude Code spawns ARTEMIS as a child process. Communication is via stdin/stdout — every message is one JSON line ending in <span class="inline-code">\n</span>. No network overhead. Fastest for local tools.</p>
+              <div class="code-block" style="margin-top:.75rem">
+                <div class="code-body"><pre><span class="cm"># ARTEMIS spawned by Claude Code</span>
+python -m artemis.mcp_server</pre></div>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Streamable HTTP (remote)</h3>
+              <p style="color:var(--text2);font-size:.88rem">For remote MCP servers. Client sends HTTPS POST requests. Server streams responses via SSE (Server-Sent Events). Not used by ARTEMIS locally.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 7 — FLUTTER -->
+<section class="section" id="flutter">
+  <div class="section-header">
+    <div class="section-tag">Section 07</div>
+    <h2 class="section-title">ARTEMIS &amp; Flutter UIs</h2>
+    <p class="section-desc">Flutter renders everything on a single GPU canvas — which means Android can't see any UI elements by default. Here's how ARTEMIS handles that.</p>
+  </div>
+
+  <div class="cards cards-2" style="margin-bottom:2rem">
+    <div class="card">
+      <div class="card-icon red">❌</div>
+      <h3>Native Android App</h3>
+      <p>Every widget is a real Android View object. UIAutomator dumps the full hierarchy — every button, text field, and label is discoverable.</p>
+      <div class="code-block" style="margin-top:1rem">
+        <div class="code-body"><pre><span class="cm">// Android sees everything</span>
+<span class="tag">&lt;TextView&gt;</span> Login Title
+<span class="tag">&lt;EditText&gt;</span> Email Field  <span class="cm">← clickable</span>
+<span class="tag">&lt;EditText&gt;</span> Password     <span class="cm">← clickable</span>
+<span class="tag">&lt;Button&gt;</span>   Sign In      <span class="cm">← clickable</span></pre></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon yellow">⚠️</div>
+      <h3>Flutter App (without Semantics)</h3>
+      <p>Flutter draws everything on a single GPU texture. Android sees only one opaque surface — no buttons, no text fields, nothing.</p>
+      <div class="code-block" style="margin-top:1rem">
+        <div class="code-body"><pre><span class="cm">// Android sees nothing useful</span>
+<span class="tag">&lt;FlutterView&gt;</span>
+  <span class="cm">/* empty — GPU canvas */</span>
+<span class="tag">&lt;/FlutterView&gt;</span></pre></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:1rem">The Solution: Flutter AccessibilityBridge</h3>
+  <div class="flow">
+    <div class="flow-item">
+      <div class="flow-icon">🧩</div>
+      <div class="flow-content">
+        <h4>Flutter Widget Tree</h4>
+        <p>Your Dart widgets: <span class="inline-code">Column → Text → TextField → ElevatedButton</span></p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">🔀</div>
+      <div class="flow-content">
+        <h4>Flutter Semantics Tree (Dart)</h4>
+        <p>Flutter Engine builds a parallel tree of <span class="inline-code">SemanticsNode</span> objects describing every interactive element — label, role, bounds, callbacks.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">🌉</div>
+      <div class="flow-content">
+        <h4>AccessibilityBridge</h4>
+        <p>Translates each <span class="inline-code">SemanticsNode</span> into an Android <span class="inline-code">AccessibilityNodeInfo</span> object — exactly what UIAutomator and ARTEMIS expect.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">✅</div>
+      <div class="flow-content">
+        <h4>ARTEMIS Reads Normally</h4>
+        <p>ARTEMIS sees <span class="inline-code">&lt;node text="Sign In" class="android.widget.Button" clickable="true"/&gt;</span> — same as a native app.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout danger">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body"><h4>Semantics are NOT enabled by default in Flutter</h4><p>The Semantics Tree is only built when TalkBack (screen reader) is active on the device, OR when your code explicitly requests it. Without it, ARTEMIS falls back to visual mode — slower and less accurate.</p></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">How to Enable Semantics for ARTEMIS</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">dart — main.dart</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="kw">void</span> <span class="fn">main</span>() {
+  WidgetsFlutterBinding.<span class="fn">ensureInitialized</span>();
+
+  <span class="cm">// Enable Semantics Tree in debug builds only</span>
+  <span class="fn">assert</span>(() {
+    SemanticsBinding.instance.<span class="fn">ensureSemantics</span>();
+    <span class="kw">return true</span>;
+  }());
+
+  <span class="fn">runApp</span>(MyApp());
+}</pre></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">Making Flutter Widgets ARTEMIS-Friendly</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">dart — semantics best practices</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="cm">// Level 1: Standard widgets — automatic semantics</span>
+Text(<span class="str">"Login"</span>)              <span class="cm">// label = "Login"</span>
+ElevatedButton(...)        <span class="cm">// isButton = true</span>
+TextField(hint: <span class="str">"Email"</span>)  <span class="cm">// isTextField = true</span>
+
+<span class="cm">// Level 2: Custom widgets — use Semantics wrapper</span>
+Semantics(
+  label: <span class="str">'Product Card: iPhone 15'</span>,
+  hint: <span class="str">'Double tap to view details'</span>,
+  button: <span class="kw">true</span>,
+  child: GestureDetector(
+    onTap: () => navigateToProduct(),
+    child: CustomProductCard(product: product),
+  ),
+)
+
+<span class="cm">// Level 3: Add identifier for reliable ARTEMIS targeting</span>
+Semantics(
+  identifier: <span class="str">'login-button'</span>,  <span class="cm">// → resource-id in tree</span>
+  label: <span class="str">'Sign In'</span>,
+  button: <span class="kw">true</span>,
+  child: ElevatedButton(
+    onPressed: onLogin,
+    child: Text(<span class="str">'Sign In'</span>),
+  ),
+)
+<span class="cm">// ARTEMIS now sees: resource-id="com.app:id/login-button"</span></pre></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 8 — PRO MODE -->
+<section class="section" id="pro-mode">
+  <div class="section-header">
+    <div class="section-tag">Section 08</div>
+    <h2 class="section-title">Pro Mode — Multi-Agent Architecture</h2>
+    <p class="section-desc">For complex, long-running tasks (30+ steps) that require planning, verification, and automatic recovery from failures.</p>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><h4>Why Pro Mode Exists</h4><p>Flash fails on long tasks because it has no plan to refer back to, no way to verify milestones, and no structured recovery when something unexpected happens. Pro Mode adds a 3-agent system that handles all of this.</p></div>
+  </div>
+
+  <div class="agent-grid">
+    <div class="agent-card planner">
+      <div class="agent-role">Agent 1</div>
+      <h3>🗺️ The Planner</h3>
+      <ul>
+        <li>Creates a full Markdown execution plan</li>
+        <li>Defines milestones (checkpoints)</li>
+        <li>Adds expected outcomes per step</li>
+        <li>Defines fallback strategies</li>
+        <li>Updates plan if environment changes</li>
+      </ul>
+    </div>
+    <div class="agent-card operator">
+      <div class="agent-role">Agent 2</div>
+      <h3>⚙️ The Operator</h3>
+      <ul>
+        <li>Executes steps from the plan</li>
+        <li>Runs pre-action verification before every tap</li>
+        <li>Auto-dismisses popups and interruptions</li>
+        <li>Opens "Execution Incidents" on failure</li>
+        <li>Attempts multiple recovery strategies</li>
+      </ul>
+    </div>
+    <div class="agent-card checker">
+      <div class="agent-role">Agent 3</div>
+      <h3>✅ The Checker</h3>
+      <ul>
+        <li>Read-only — never touches the device</li>
+        <li>Verifies milestone completion</li>
+        <li>Triggers rollback if verification fails</li>
+        <li>Writes the final execution report</li>
+        <li>Configurable: off / final / checkpoints / strict</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">What the Planner Produces</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">markdown — planner output</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="cm"># Execution Plan: Complete Checkout Flow Test</span>
+
+<span class="cm">## Milestones</span>
+- [ ] M1: 5 products browsed
+- [ ] M2: Cart has 3 items
+- [ ] M3: Promo code applied
+- [ ] M4: Payment submitted
+- [ ] M5: Order confirmed
+
+<span class="cm">## Steps</span>
+
+<span class="cm">### Phase 1: Browse</span>
+- [ ] Step 1: Open app, verify product grid visible (min 5 items)
+  - Expected: Grid with product cards
+  - Fallback: If empty → scroll down, wait 3s, retry
+
+- [ ] Step 7: Add Product 1 to cart
+  - Expected: Cart badge shows <span class="str">"1"</span>
+  - Verify: cart_count == <span class="num">1</span>
+
+<span class="cm">## Recovery Protocols</span>
+- On crash: restart app, resume from last completed milestone
+- On popup: dismiss and continue
+- On timeout: screenshot + retry step once</pre></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">Pre-Action Verification (Operator)</h3>
+  <div class="flow">
+    <div class="flow-item">
+      <div class="flow-icon">📋</div>
+      <div class="flow-content"><h4>Plan says: Tap "Add to Cart" at index 5</h4><p>The Operator reads the current step from the shared plan.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">🔍</div>
+      <div class="flow-content"><h4>Pre-check: Is index 5 in the current tree?</h4><p>Reads the live accessibility tree. If the element is there — proceed. If not — open recovery flow.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">🔄</div>
+      <div class="flow-content"><h4>Recovery: Search by text, then visual</h4><p>Tries <span class="inline-code">search_by_text("Add to Cart")</span>, then visual search from screenshot. If found — tap. If not — opens an Execution Incident.</p></div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">✅</div>
+      <div class="flow-content"><h4>Continue or escalate</h4><p>If recovered — continues from where it left off. If all strategies fail — incident is logged and Checker is notified.</p></div>
+    </div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">Flash vs Pro — When to Use Each</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Scenario</th><th>Flash</th><th>Pro</th></tr></thead>
+      <tbody>
+        <tr><td>Login screen test</td><td><span class="badge-green">✅ Best choice</span></td><td><span class="badge-yellow">Overkill</span></td></tr>
+        <tr><td>Task ≤ 15 steps</td><td><span class="badge-green">✅ Best choice</span></td><td><span class="badge-yellow">Overkill</span></td></tr>
+        <tr><td>Task > 30 steps</td><td><span class="badge-red">❌ Will get lost</span></td><td><span class="badge-green">✅ Required</span></td></tr>
+        <tr><td>Multi-screen workflows</td><td><span class="badge-red">❌ Unreliable</span></td><td><span class="badge-green">✅ Best choice</span></td></tr>
+        <tr><td>CI/CD smoke tests</td><td><span class="badge-green">✅ Fast &amp; cheap</span></td><td><span class="badge-yellow">Too slow</span></td></tr>
+        <tr><td>Full regression suite</td><td><span class="badge-red">❌ Incomplete</span></td><td><span class="badge-green">✅ Best choice</span></td></tr>
+        <tr><td>Stability test (10h+)</td><td><span class="badge-red">❌ Will fail</span></td><td><span class="badge-green">✅ Designed for this</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout success">
+    <div class="callout-icon">✅</div>
+    <div class="callout-body"><h4>Shared State — How Agents Communicate</h4><p>The three agents don't call each other directly. They communicate through a <strong>shared state object</strong> that all three can read/write. Planner writes to the <span class="inline-code">plan</span> section. Operator writes to <span class="inline-code">execution</span>. Checker writes to <span class="inline-code">verification</span>. Each agent only has write access to its own section.</p></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 9 — APK VS CODE -->
+<section class="section" id="apk-vs-code">
+  <div class="section-header">
+    <div class="section-tag">Section 09</div>
+    <h2 class="section-title">Using ARTEMIS: APK vs Source Code</h2>
+    <p class="section-desc">Two ways to use ARTEMIS — and how they combine for maximum power.</p>
+  </div>
+
+  <div class="cards cards-2">
+    <div class="card">
+      <div class="card-icon blue">📦</div>
+      <h3>Black Box — APK Only</h3>
+      <p style="margin-bottom:1rem;color:var(--text2)">You give ARTEMIS a compiled APK and task. It tests the app from the outside exactly like a real user would. It sees UI elements and Logcat — nothing else.</p>
+      <div class="code-block">
+        <div class="code-body"><pre><span class="cm"># Install APK on device</span>
+adb install my_app.apk
+
+<span class="cm"># Give ARTEMIS a task</span>
+<span class="str">"Login with test@email.com / pass123,</span>
+<span class="str"> verify dashboard loads correctly"</span></pre></div>
+      </div>
+      <p style="margin-top:.75rem;color:var(--text2);font-size:.85rem">Best for: release testing, testing third-party apps, regression testing after build.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon purple">💻</div>
+      <h3>White Box — With Source Code</h3>
+      <p style="margin-bottom:1rem;color:var(--text2)">Claude Code sees your source code AND ARTEMIS sees the device. Together they can build, test, find bugs, fix them, and test again — fully automated.</p>
+      <div class="code-block">
+        <div class="code-body"><pre>You tell Claude Code:
+<span class="str">"Build the APK and test login, fix any bugs"</span>
+
+Claude Code:
+1. flutter build apk --debug
+2. mobile_run_task("install + test login")
+3. ARTEMIS: "button not responding"
+4. Claude finds bug in code
+5. Fixes it, rebuilds, retests</pre></div>
+      </div>
+      <p style="margin-top:.75rem;color:var(--text2);font-size:.85rem">Best for: active development, CI/CD with auto-fix, complete build-test-fix loops.</p>
+    </div>
+  </div>
+
+  <div class="callout info" style="margin-top:2rem">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><h4>Flutter-specific tip: Enable Semantics in your debug build</h4><p>When using ARTEMIS with your Flutter source code, add <span class="inline-code">SemanticsBinding.instance.ensureSemantics()</span> to your debug build configuration. This ensures ARTEMIS uses the fast accessibility tree path instead of the slower visual fallback for every interaction.</p></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 10 — CI/CD -->
+<section class="section" id="cicd">
+  <div class="section-header">
+    <div class="section-tag">Section 10</div>
+    <h2 class="section-title">Full CI/CD Pipeline with ARTEMIS</h2>
+    <p class="section-desc">Complete GitHub Actions setup for a Flutter app — from code push to automated E2E test results.</p>
+  </div>
+
+  <h3 style="margin-bottom:1.25rem">Pipeline Overview</h3>
+  <div class="pipeline">
+    <div class="pipe-step">Git Push / PR</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Code Quality</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Unit Tests</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Build APK</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">ARTEMIS E2E</div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">Report &amp; Notify</div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">Project File Structure</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">project structure</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre>my_flutter_app/
+├── lib/
+├── test/                     <span class="cm">← unit &amp; widget tests</span>
+├── e2e_tests/                <span class="cm">← ARTEMIS tests (new!)</span>
+│   ├── conftest.py
+│   ├── test_smoke.py
+│   ├── test_auth.py
+│   ├── test_critical_flows.py
+│   └── test_regression.py
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+└── artemis.config.jsonc</pre></div>
+  </div>
+
+  <div class="accordion" style="margin-top:1.5rem">
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>⚙️</span> GitHub Actions Workflow (ci.yml)</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-body-inner">
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">yaml — github actions</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+            <div class="code-body"><pre><span class="attr">name</span>: <span class="val">Flutter CI + ARTEMIS E2E</span>
+<span class="attr">on</span>:
+  <span class="attr">push</span>: { <span class="attr">branches</span>: [main, develop] }
+  <span class="attr">pull_request</span>: { <span class="attr">branches</span>: [main] }
+
+<span class="attr">jobs</span>:
+  <span class="attr">code-quality</span>:
+    <span class="attr">runs-on</span>: ubuntu-latest
+    <span class="attr">steps</span>:
+      - <span class="kw">uses</span>: actions/checkout@v4
+      - <span class="kw">uses</span>: subosito/flutter-action@v2
+      - <span class="attr">run</span>: <span class="val">dart format --set-exit-if-changed lib/</span>
+      - <span class="attr">run</span>: <span class="val">flutter analyze --fatal-infos</span>
+
+  <span class="attr">build-apk</span>:
+    <span class="attr">needs</span>: code-quality
+    <span class="attr">steps</span>:
+      - <span class="attr">run</span>: flutter build apk --debug
+      - <span class="attr">name</span>: <span class="val">Upload APK</span>
+        <span class="kw">uses</span>: actions/upload-artifact@v4
+        <span class="attr">with</span>: { <span class="attr">name</span>: debug-apk, <span class="attr">path</span>: build/...apk }
+
+  <span class="attr">e2e-artemis</span>:
+    <span class="attr">runs-on</span>: macos-15   <span class="cm"># hardware acceleration for emulator</span>
+    <span class="attr">needs</span>: build-apk
+    <span class="attr">if</span>: <span class="val">github.ref == 'refs/heads/main'</span>
+    <span class="attr">strategy</span>:
+      <span class="attr">matrix</span>: { <span class="attr">test-group</span>: [smoke, auth, critical-flows] }
+    <span class="attr">steps</span>:
+      - <span class="attr">name</span>: Start Emulator + Run Tests
+        <span class="kw">uses</span>: reactivecircus/android-emulator-runner@v2
+        <span class="attr">with</span>:
+          <span class="attr">api-level</span>: <span class="num">34</span>
+          <span class="attr">script</span>: |
+            adb install artifacts/app-debug.apk
+            uv run artemis start &amp;
+            sleep 10
+            python -m pytest e2e_tests/ -v</pre></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🔬</span> conftest.py — Shared Test Setup</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-body-inner">
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">python — conftest.py</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+            <div class="code-body"><pre><span class="kw">import</span> asyncio, pytest
+<span class="kw">from</span> artemis_client <span class="kw">import</span> ArtemisClient
+
+<span class="tag">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
+<span class="kw">async def</span> <span class="fn">artemis</span>():
+    client = <span class="fn">ArtemisClient</span>(
+        host=<span class="str">"http://localhost:8000"</span>,
+        default_profile=<span class="str">"flash"</span>,
+        timeout=<span class="num">120</span>
+    )
+    <span class="kw">yield</span> client
+
+<span class="kw">async def</span> <span class="fn">run_and_assert</span>(artemis, task, profile=<span class="str">"flash"</span>):
+    result = <span class="kw">await</span> artemis.<span class="fn">run</span>(task, profile=profile)
+    <span class="kw">if not</span> result.succeeded:
+        pytest.<span class="fn">fail</span>(
+            <span class="str">f"Task failed!\n"</span>
+            <span class="str">f"Error: {result.error}\n"</span>
+            <span class="str">f"Trace: artemis trace {result.trace_id}"</span>
+        )
+    <span class="kw">return</span> result</pre></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>💨</span> test_smoke.py — Fast Tests on Every PR</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-body-inner">
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">python — test_smoke.py</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+            <div class="code-body"><pre><span class="tag">@pytest.mark.asyncio</span>
+<span class="kw">async def</span> <span class="fn">test_app_launches</span>(artemis):
+    result = <span class="kw">await</span> artemis.<span class="fn">run</span>(
+        <span class="str">"Open the app and verify the main screen loads"</span>
+    )
+    <span class="fn">assert</span> result.succeeded
+
+<span class="tag">@pytest.mark.asyncio</span>
+<span class="kw">async def</span> <span class="fn">test_no_crash_on_launch</span>(artemis):
+    result = <span class="kw">await</span> artemis.<span class="fn">run</span>(
+        <span class="str">"Open the app and confirm there are no crash dialogs"</span>
+    )
+    <span class="fn">assert</span> result.succeeded</pre></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🔐</span> test_auth.py — Login / Logout Tests</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-body-inner">
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">python — test_auth.py</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+            <div class="code-body"><pre>TEST_EMAIL = <span class="str">"test@myapp.com"</span>
+TEST_PASS  = <span class="str">"TestPass123!"</span>
+
+<span class="tag">@pytest.mark.asyncio</span>
+<span class="kw">async def</span> <span class="fn">test_login_success</span>(artemis):
+    result = <span class="kw">await</span> artemis.<span class="fn">run</span>(
+        <span class="str">f"Login with email '{TEST_EMAIL}' and password"</span>
+        <span class="str">f"'{TEST_PASS}', verify dashboard appears"</span>
+    )
+    <span class="fn">assert</span> result.succeeded, <span class="str">f"Login failed: {result.error}"</span>
+
+<span class="tag">@pytest.mark.asyncio</span>
+<span class="kw">async def</span> <span class="fn">test_wrong_password_shows_error</span>(artemis):
+    result = <span class="kw">await</span> artemis.<span class="fn">run</span>(
+        <span class="str">f"Enter email '{TEST_EMAIL}' and wrong password"</span>
+        <span class="str">f"'WrongPass', tap Sign In, verify error message appears"</span>
+    )
+    <span class="fn">assert</span> result.succeeded
+
+<span class="tag">@pytest.mark.asyncio</span>
+<span class="kw">async def</span> <span class="fn">test_session_persists_after_restart</span>(artemis):
+    result = <span class="kw">await</span> artemis.<span class="fn">run</span>(
+        <span class="str">f"Login with '{TEST_EMAIL}' / '{TEST_PASS}', force close"</span>
+        <span class="str">f"app, reopen, verify still logged in (not on login screen)"</span>,
+        profile=<span class="str">"pro"</span>   <span class="cm"># pro — involves 2 app launches</span>
+    )
+    <span class="fn">assert</span> result.succeeded</pre></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight" style="margin-top:2rem">
+    <h3>CI Timing Summary</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Job</th><th>Time</th><th>Runs on</th></tr></thead>
+        <tbody>
+          <tr><td>Code Quality + Unit Tests</td><td>~3 min</td><td>Every push</td></tr>
+          <tr><td>Build APK</td><td>~3 min</td><td>Every push</td></tr>
+          <tr><td>Smoke Tests (E2E)</td><td>~2 min</td><td>Every PR</td></tr>
+          <tr><td>Auth + Critical Flows</td><td>~10 min</td><td>Every PR</td></tr>
+          <tr><td>Full Regression Suite</td><td>~25 min</td><td>Merge to main only</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 11 — BENCHMARK -->
+<section class="section" id="benchmark">
+  <div class="section-header">
+    <div class="section-tag">Section 11</div>
+    <h2 class="section-title">AndroidWorld Benchmark — The 99.1%</h2>
+    <p class="section-desc">What AndroidWorld actually measures, and what ARTEMIS's score really means.</p>
+  </div>
+
+  <div class="cards cards-3" style="margin-bottom:2rem">
+    <div class="card">
+      <div class="card-icon blue">📋</div>
+      <h3>116 Tasks</h3>
+      <p>Hand-crafted tasks across 20 real Android apps: Gmail, Chrome, Contacts, Calendar, Files, Settings, and more.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon purple">🎲</div>
+      <h3>Dynamic Parameters</h3>
+      <p>Tasks use random values every run: random names, emails, file names, dates. Millions of unique variations — impossible to memorize.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green">✅</div>
+      <h3>System State Verification</h3>
+      <p>Success is checked by inspecting the actual Android system state (SQLite DB, file system, settings) — not just what's on screen.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:1.25rem">Score Progression Over Time</h3>
+  <div class="token-bar">
+    <div class="token-row">
+      <div class="token-label">Human</div>
+      <div class="token-track"><div class="token-fill" style="width:88%;background:linear-gradient(90deg,#ffd166,#ff6b6b)"></div></div>
+      <div class="token-val">88%</div>
+    </div>
+    <div class="token-row">
+      <div class="token-label">Best Agent 2024</div>
+      <div class="token-track"><div class="token-fill" style="width:30.6%;background:linear-gradient(90deg,#e06c75,#c678dd)"></div></div>
+      <div class="token-val">30.6%</div>
+    </div>
+    <div class="token-row">
+      <div class="token-label">Top LLMs 2026</div>
+      <div class="token-track"><div class="token-fill" style="width:74%;background:linear-gradient(90deg,#61afef,#4f9eff)"></div></div>
+      <div class="token-val">~74%</div>
+    </div>
+    <div class="token-row">
+      <div class="token-label">ARTEMIS System</div>
+      <div class="token-track"><div class="token-fill" style="width:99.1%;background:linear-gradient(90deg,#4f9eff,#00d4aa)"></div></div>
+      <div class="token-val">99.1%</div>
+    </div>
+  </div>
+
+  <div class="callout warning" style="margin-top:2rem">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body"><h4>Important: Self-Reported Score</h4><p>The AndroidWorld leaderboard explicitly states it does <strong>not independently verify submissions</strong>. ARTEMIS's 99.1% score is self-reported by the Google team. This doesn't mean it's wrong — but it hasn't been independently reproduced at that level yet.</p></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">Why the Jump from 74% to 99.1%?</h3>
+  <div class="cards cards-2">
+    <div class="card">
+      <div class="card-icon red">❌</div>
+      <h3>LLM Alone (74%)</h3>
+      <p style="color:var(--text2);font-size:.88rem">Screenshot → LLM decides action → ADB command. No safety net, no verification, no recovery. Fails on popups, transient UI, long tasks.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green">✅</div>
+      <h3>ARTEMIS System (99.1%)</h3>
+      <p style="color:var(--text2);font-size:.88rem">Accessibility tree (not just screenshot) + Dynamic-First targeting + Safety Net for popups + Pre-action verification + Pro Mode with checkpoints + History compression + Auto-recovery.</p>
+    </div>
+  </div>
+
+  <div class="callout success" style="margin-top:1.5rem">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><h4>The core insight: The Harness matters more than the Model</h4><p>The jump from 30% → 99% didn't come from a smarter LLM. It came from a smarter system around the LLM. ARTEMIS proves that the orchestration layer — how you observe, decide, act, and recover — is the real differentiator in agent performance.</p></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 12 — PROMPTS -->
+<section class="section" id="prompts">
+  <div class="section-header">
+    <div class="section-tag">Section 12</div>
+    <h2 class="section-title">Writing Effective Task Prompts</h2>
+    <p class="section-desc">There's no required format — but how you write your task directly affects accuracy, speed, and token cost.</p>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><h4>No Special Syntax Required</h4><p>ARTEMIS reads plain natural language. No brackets, no XML, no special keywords. But the <em>way</em> you describe the task significantly impacts how many turns it takes — and turns = tokens = cost.</p></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">The 5 Golden Rules</h3>
+
+  <div class="tips-grid">
+    <div class="tip">
+      <div class="tip-num">01</div>
+      <h4>Describe outcomes, not steps</h4>
+      <p>Tell ARTEMIS what you want to achieve. It will figure out how to get there on its own.</p>
+    </div>
+    <div class="tip">
+      <div class="tip-num">02</div>
+      <h4>Use concrete values</h4>
+      <p>Always provide exact emails, passwords, names, and search terms. Never say "test credentials".</p>
+    </div>
+    <div class="tip">
+      <div class="tip-num">03</div>
+      <h4>End with a verification</h4>
+      <p>Always state what success looks like: "verify dashboard loads" or "confirm the name appears on screen".</p>
+    </div>
+    <div class="tip">
+      <div class="tip-num">04</div>
+      <h4>Split big tasks</h4>
+      <p>3 Flash tasks are faster and cheaper than 1 Pro task. Split anything over 15 steps.</p>
+    </div>
+    <div class="tip">
+      <div class="tip-num">05</div>
+      <h4>Skip explaining your app</h4>
+      <p>ARTEMIS sees the screen in real time. Don't describe your UI structure — it will find elements itself.</p>
+    </div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">Good vs Bad Examples</h3>
+
+  <div class="accordion">
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🔐</span> Login Task — Comparison</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-body-inner">
+          <div class="cards cards-2">
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">❌ Bad — over-specified</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+              <div class="code-body"><pre><span class="str">"Tap the hamburger menu in the top left,</span>
+<span class="str"> tap Settings from the dropdown, scroll</span>
+<span class="str"> down to find Notifications, tap it, then</span>
+<span class="str"> toggle the switch off"</span>
+
+<span class="cm">→ Turns: 12–15 (follows your steps</span>
+<span class="cm">  even when UI is different)</span></pre></div>
+            </div>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">✅ Good — outcome focused</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+              <div class="code-body"><pre><span class="str">"Disable notifications in settings"</span>
+
+
+<span class="cm">→ Turns: 5–6 (ARTEMIS finds</span>
+<span class="cm">  the path itself)</span></pre></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>📝</span> Form Filling — Comparison</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-body-inner">
+          <div class="cards cards-2">
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">❌ Bad — vague values</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+              <div class="code-body"><pre><span class="str">"Login with the test credentials"</span>
+
+<span class="cm">→ ARTEMIS doesn't know</span>
+<span class="cm">  what "test credentials" are</span></pre></div>
+            </div>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">✅ Good — concrete values</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+              <div class="code-body"><pre><span class="str">"Login with email 'test@myapp.com'</span>
+<span class="str"> and password 'Pass123!'"</span>
+
+<span class="cm">→ Clear, unambiguous</span></pre></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>✅</span> Verification — Comparison</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body">
+        <div class="acc-body-inner">
+          <div class="cards cards-2">
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">❌ Bad — no success condition</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+              <div class="code-body"><pre><span class="str">"Go to profile and change the name"</span>
+
+<span class="cm">→ ARTEMIS doesn't know</span>
+<span class="cm">  when to stop</span></pre></div>
+            </div>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">✅ Good — clear finish condition</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+              <div class="code-body"><pre><span class="str">"Go to profile, change display name</span>
+<span class="str"> to 'Test User 2026', save, verify</span>
+<span class="str"> the name appears on screen"</span></pre></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 13 — TOKENS -->
+<section class="section" id="tokens">
+  <div class="section-header">
+    <div class="section-tag">Section 13</div>
+    <h2 class="section-title">Token Costs — How They're Calculated</h2>
+    <p class="section-desc">Your task prompt is the smallest cost. Here's what actually drives token usage — and how to minimize it.</p>
+  </div>
+
+  <h3 style="margin-bottom:1.25rem">What Makes Up Each Turn's Token Cost</h3>
+  <div class="token-bar">
+    <div class="token-row">
+      <div class="token-label">UI Tree (XML)</div>
+      <div class="token-track"><div class="token-fill" style="width:65%;background:linear-gradient(90deg,#e06c75,#c678dd)"></div></div>
+      <div class="token-val">~2,500 tok</div>
+    </div>
+    <div class="token-row">
+      <div class="token-label">Screenshot</div>
+      <div class="token-track"><div class="token-fill" style="width:40%;background:linear-gradient(90deg,#d19a66,#e5c07b)"></div></div>
+      <div class="token-val">~1,200 tok</div>
+    </div>
+    <div class="token-row">
+      <div class="token-label">History</div>
+      <div class="token-track"><div class="token-fill" style="width:35%;background:linear-gradient(90deg,#61afef,#4f9eff)"></div></div>
+      <div class="token-val">~1,000 tok</div>
+    </div>
+    <div class="token-row">
+      <div class="token-label">System Prompt</div>
+      <div class="token-track"><div class="token-fill" style="width:18%;background:linear-gradient(90deg,#56b6c2,#00d4aa)"></div></div>
+      <div class="token-val">~600 tok</div>
+    </div>
+    <div class="token-row">
+      <div class="token-label">Your Task</div>
+      <div class="token-track"><div class="token-fill" style="width:3%;background:linear-gradient(90deg,#98c379,#00d4aa)"></div></div>
+      <div class="token-val">~20 tok</div>
+    </div>
+    <div class="token-row">
+      <div class="token-label">Output (action)</div>
+      <div class="token-track"><div class="token-fill" style="width:2%;background:var(--text3)"></div></div>
+      <div class="token-val">~80 tok</div>
+    </div>
+  </div>
+
+  <div class="callout info" style="margin:1.5rem 0">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><h4>Key insight: Your task text barely matters for cost</h4><p>Writing a 200-word task vs a 10-word task changes your cost by less than 1%. The real cost drivers are the UI Tree and screenshot sent every single turn. <strong>Reduce turns, not task length.</strong></p></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">Tokenization Rules</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Content Type</th><th>Approximate Token Ratio</th></tr></thead>
+      <tbody>
+        <tr><td>English text</td><td>1 token ≈ 4 characters / 0.75 words</td></tr>
+        <tr><td>Arabic text</td><td>1 token ≈ 1–2 characters (more expensive!)</td></tr>
+        <tr><td>XML / Code</td><td>1 token ≈ 3–4 characters</td></tr>
+        <tr><td>Screenshot (base64)</td><td>~800–2,000 tokens depending on resolution</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">Real Cost Calculation — Gemini 2.0 Flash</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">cost breakdown</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="cm">Gemini 2.0 Flash pricing:</span>
+Input:  <span class="num">$0.075</span> per 1M tokens
+Output: <span class="num">$0.300</span> per 1M tokens
+
+<span class="cm">Simple login test (6 turns, ~35,000 tokens input):</span>
+Input cost:  <span class="num">35,000</span> × <span class="num">$0.075</span>/1M = <span class="num">$0.0026</span>
+Output cost: <span class="num">480</span>    × <span class="num">$0.300</span>/1M = <span class="num">$0.0001</span>
+Total per test:              ≈ <span class="num">$0.003</span>  <span class="cm">← less than 1 cent!</span>
+
+<span class="cm">Full suite of 100 tests:</span>
+<span class="num">100</span> × <span class="num">$0.003</span> = <span class="num">$0.30</span>  <span class="cm">← 30 cents total</span>
+
+<span class="cm">Pro Mode task (100 steps, ~800,000 tokens input):</span>
+Input cost:  <span class="num">800,000</span> × <span class="num">$0.075</span>/1M = <span class="num">$0.06</span>
+Total per Pro run:           ≈ <span class="num">$0.075</span>
+
+<span class="cm">Daily regression suite (500 tests, mixed):</span>
+<span class="num">500</span> × <span class="num">$0.005</span> avg = <span class="num">$2.50</span>/day  <span class="cm">← $75/month</span></pre></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">How to Track Token Usage</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">python — token tracking</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre>result = <span class="kw">await</span> artemis.<span class="fn">run</span>(<span class="str">"Login and verify dashboard"</span>)
+
+<span class="fn">print</span>(result.usage)
+<span class="cm"># {</span>
+<span class="cm">#   "total_turns": 6,</span>
+<span class="cm">#   "total_input_tokens": 34_500,</span>
+<span class="cm">#   "total_output_tokens": 480,</span>
+<span class="cm">#   "breakdown": {</span>
+<span class="cm">#     "system_prompt": 3_600,  ← fixed × turns</span>
+<span class="cm">#     "task":           90,    ← tiny!</span>
+<span class="cm">#     "ui_trees":    15_200,  ← biggest</span>
+<span class="cm">#     "screenshots":  8_400,  ← second biggest</span>
+<span class="cm">#     "history":      7_210,  ← grows over time</span>
+<span class="cm">#   }</span>
+<span class="cm"># }</span></pre></div>
+  </div>
+
+  <div class="highlight" style="margin-top:2rem">
+    <h3>Summary: The Golden Rules for Token Efficiency</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content"><h4>Reduce turns, not task length</h4><p>Each turn costs ~5,000–8,000 tokens regardless of your task text. Every extra turn you eliminate saves more than shortening your prompt.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content"><h4>Use Flash for short tasks</h4><p>Flash (3–5s/step) vs Pro (15–40s/step). Use Pro only when you need it — it uses 5–10× more tokens per task.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content"><h4>Enable Flutter Semantics</h4><p>Visual fallback (no semantics) = more turns per action, because coordinate targeting is less precise and needs more retries.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content"><h4>Split large tasks</h4><p>3 × 10-step Flash tasks use fewer tokens than 1 × 30-step Flash task, because history compression kicks in later and is less efficient.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 14 — WEB CONSOLE -->
+<section class="section" id="web-console">
+  <div class="section-header">
+    <div class="section-tag">Section 14</div>
+    <h2 class="section-title">The Web Console</h2>
+    <p class="section-desc">ARTEMIS ships with a full visual interface at <span class="inline-code">http://localhost:8000</span> — live device mirroring, prompt sandbox, and execution replays.</p>
+  </div>
+
+  <div class="cards cards-2" style="margin-bottom:2rem">
+    <div class="card">
+      <div class="card-icon blue">📱</div>
+      <h3>Live Screen Mirroring</h3>
+      <p>See your Android device screen in real-time inside the browser. Every tap, swipe, and type ARTEMIS makes is visible instantly. You can watch the agent think and act — step by step.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon purple">✍️</div>
+      <h3>Prompt Sandbox</h3>
+      <p>Write a task, choose Flash or Pro profile, hit Run — and watch it execute live. No code, no terminal. Perfect for experimenting with tasks before putting them in your CI/CD pipeline.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green">🎬</div>
+      <h3>Execution Replays</h3>
+      <p>Every past run is stored with full screenshots per turn, action reasoning, and timing. Open any past <span class="inline-code">trace_id</span> and replay it frame by frame — like a video of what the agent did.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon yellow">📋</div>
+      <h3>Logcat Viewer</h3>
+      <p>Live Android logs streamed directly into the console. Filter by tag, level (Error / Warning / Debug), or package name. No need to run <span class="inline-code">adb logcat</span> in a separate terminal.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:1rem">Console Layout</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">web console — layout overview</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre>┌─────────────────────────────────────────────────────────┐
+│  ARTEMIS Console — http://localhost:8000                │
+├──────────────────┬──────────────────────────────────────┤
+│                  │  Task Input                          │
+│  Live Device     │  ┌────────────────────────────────┐  │
+│  Mirror          │  │ "Login with test@app.com..."   │  │
+│                  │  └────────────────────────────────┘  │
+│  [real-time      │  Profile: [Flash ▼]  [▶ Run]        │
+│   screen         │                                      │
+│   capture]       │  Execution Log                       │
+│                  │  Turn 1: tap(index=1) → success      │
+│                  │  Turn 2: type("test@app.com") → ok   │
+│                  │  Turn 3: tap(login_button) → ok      │
+│                  │  ✅ Task completed in 6 turns         │
+├──────────────────┴──────────────────────────────────────┤
+│  Past Runs  │  Logcat  │  Device Info  │  Settings      │
+└─────────────────────────────────────────────────────────┘</pre></div>
+  </div>
+
+  <div class="callout success">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><h4>Best Workflow: Console First, CI/CD Second</h4><p>Always prototype your tasks in the Web Console first. Tweak the phrasing until it executes reliably, then copy the task text into your pytest test. This saves hours of debugging in the CI pipeline.</p></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 15 — TRACE -->
+<section class="section" id="trace">
+  <div class="section-header">
+    <div class="section-tag">Section 15</div>
+    <h2 class="section-title">The Trace System — Full Execution History</h2>
+    <p class="section-desc">Every task run produces a trace — a complete record of every decision, action, screenshot, and log. Your most powerful debugging tool.</p>
+  </div>
+
+  <h3 style="margin-bottom:1rem">What a Trace Contains</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">json — trace structure</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre>{
+  <span class="str">"trace_id"</span>: <span class="str">"flash-abc123-def456"</span>,
+  <span class="str">"task"</span>: <span class="str">"Login with test@app.com, verify dashboard"</span>,
+  <span class="str">"profile"</span>: <span class="str">"flash"</span>,
+  <span class="str">"status"</span>: <span class="str">"completed"</span>,
+  <span class="str">"succeeded"</span>: <span class="kw">true</span>,
+  <span class="str">"duration_s"</span>: <span class="num">28.4</span>,
+  <span class="str">"steps_taken"</span>: <span class="num">6</span>,
+
+  <span class="cm">// Token usage breakdown</span>
+  <span class="str">"usage"</span>: {
+    <span class="str">"total_input_tokens"</span>: <span class="num">34500</span>,
+    <span class="str">"total_output_tokens"</span>: <span class="num">480</span>,
+    <span class="str">"cost_usd"</span>: <span class="num">0.003</span>
+  },
+
+  <span class="cm">// Every turn recorded</span>
+  <span class="str">"turns"</span>: [
+    {
+      <span class="str">"turn"</span>: <span class="num">1</span>,
+      <span class="str">"thought"</span>: <span class="str">"Login screen visible. Email field at index 1."</span>,
+      <span class="str">"action"</span>: <span class="str">"tap"</span>,
+      <span class="str">"target"</span>: { <span class="str">"index"</span>: <span class="num">1</span>, <span class="str">"text"</span>: <span class="str">"Email"</span> },
+      <span class="str">"adb_command"</span>: <span class="str">"adb shell input tap 540 260"</span>,
+      <span class="str">"duration_ms"</span>: <span class="num">3200</span>,
+      <span class="str">"screenshot_before"</span>: <span class="str">"base64..."</span>,
+      <span class="str">"screenshot_after"</span>: <span class="str">"base64..."</span>,
+      <span class="str">"ui_tree"</span>: <span class="str">"&lt;hierarchy&gt;...&lt;/hierarchy&gt;"</span>,
+      <span class="str">"input_tokens"</span>: <span class="num">5200</span>,
+      <span class="str">"output_tokens"</span>: <span class="num">78</span>
+    }
+    <span class="cm">// ... turns 2-6</span>
+  ],
+
+  <span class="cm">// Logcat captured during run</span>
+  <span class="str">"logcat"</span>: [
+    <span class="str">"D/MyApp: LoginViewModel: Starting login flow"</span>,
+    <span class="str">"D/MyApp: AuthRepo: POST /api/auth/login"</span>,
+    <span class="str">"D/MyApp: AuthRepo: 200 OK — token received"</span>
+  ],
+
+  <span class="cm">// Pro Mode only</span>
+  <span class="str">"incidents"</span>: [],
+  <span class="str">"milestones"</span>: {},
+  <span class="str">"final_report"</span>: <span class="str">"Login succeeded. Dashboard loaded in 2.1s."</span>
+}</pre></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">How to Use Traces for Debugging</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><h4>Test fails in CI — get the trace_id</h4><p>Your pytest output shows: <span class="inline-code">Trace: artemis trace flash-abc123-def456</span>. This is your entry point.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content"><h4>Open in Web Console</h4><p>Run <span class="inline-code">artemis trace flash-abc123-def456</span> — opens the replay in your browser. Navigate turn by turn.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content"><h4>Find the failing turn</h4><p>Look for the turn where the action changed from <span class="inline-code">success</span> to something unexpected. Check the screenshot_before to see what the agent was looking at.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content"><h4>Check Logcat at that moment</h4><p>The trace includes timestamped Logcat — see exactly what your app was doing in the background at the same moment the agent was confused.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content"><h4>Fix the task or the app</h4><p>Either your task wording was ambiguous (fix the prompt) or your app had a bug (fix the code). Rerun to confirm.</p></div>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">python — working with traces</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="cm"># Get trace after a run</span>
+result = <span class="kw">await</span> artemis.<span class="fn">run</span>(<span class="str">"Login and verify dashboard"</span>)
+trace = <span class="kw">await</span> artemis.<span class="fn">get_trace</span>(result.trace_id)
+
+<span class="cm"># Inspect specific turn</span>
+turn_3 = trace.turns[<span class="num">2</span>]
+<span class="fn">print</span>(turn_3.thought)         <span class="cm"># what the agent was thinking</span>
+<span class="fn">print</span>(turn_3.adb_command)     <span class="cm"># what it sent to ADB</span>
+<span class="fn">print</span>(turn_3.duration_ms)     <span class="cm"># how long this step took</span>
+
+<span class="cm"># Save screenshots for test report</span>
+<span class="kw">for</span> turn <span class="kw">in</span> trace.turns:
+    <span class="fn">save_image</span>(turn.screenshot_after, <span class="str">f"turn_{turn.turn}.png"</span>)
+
+<span class="cm"># Check Logcat for errors</span>
+errors = [l <span class="kw">for</span> l <span class="kw">in</span> trace.logcat <span class="kw">if</span> <span class="str">"ERROR"</span> <span class="kw">in</span> l]
+<span class="fn">print</span>(<span class="str">f"App errors during test: {len(errors)}"</span>)</pre></div>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><h4>Traces in CI — Always Save Them</h4><p>In your GitHub Actions workflow, always upload the <span class="inline-code">artemis-traces/</span> folder as an artifact. When a test fails at 2 AM, the trace is the only thing that tells you exactly what happened — no need to reproduce the failure manually.</p></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 16 — CONFIG -->
+<section class="section" id="config">
+  <div class="section-header">
+    <div class="section-tag">Section 16</div>
+    <h2 class="section-title">Complete Configuration Reference</h2>
+    <p class="section-desc">Everything you can configure in <span class="inline-code">artemis.config.jsonc</span> — models, profiles, verification, traces, and devices.</p>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">jsonc — artemis.config.jsonc (complete)</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre>{
+  <span class="cm">// ── MODEL CONFIGURATION ─────────────────────────────</span>
+  <span class="str">"model"</span>: {
+    <span class="cm">// Which provider to use: "gemini" | "anthropic" | "openai" | "qwen"</span>
+    <span class="str">"provider"</span>: <span class="str">"gemini"</span>,
+
+    <span class="cm">// Model used for Flash profile (fast + cheap)</span>
+    <span class="str">"flash_model"</span>: <span class="str">"gemini-2.0-flash"</span>,
+
+    <span class="cm">// Model used for Pro profile (powerful + expensive)</span>
+    <span class="str">"pro_model"</span>: <span class="str">"gemini-1.5-pro"</span>,
+
+    <span class="cm">// Use a local/on-device model (no cloud API calls)</span>
+    <span class="str">"local_model_url"</span>: <span class="kw">null</span>  <span class="cm">// e.g. "http://localhost:11434" for Ollama</span>
+  },
+
+  <span class="cm">// ── FLASH PROFILE ───────────────────────────────────</span>
+  <span class="str">"profiles"</span>: {
+    <span class="str">"flash"</span>: {
+      <span class="cm">// Max number of LLM turns before declaring failure</span>
+      <span class="str">"max_turns"</span>: <span class="num">25</span>,
+
+      <span class="cm">// Seconds to wait for ADB action to complete</span>
+      <span class="str">"step_timeout_s"</span>: <span class="num">8</span>,
+
+      <span class="cm">// How aggressively to compress history</span>
+      <span class="cm">// "normal" | "aggressive" (CI) | "minimal" (debugging)</span>
+      <span class="str">"history_compression"</span>: <span class="str">"normal"</span>,
+
+      <span class="cm">// Include screenshot with every turn? false = tree only (faster)</span>
+      <span class="str">"include_screenshots"</span>: <span class="kw">true</span>,
+
+      <span class="cm">// Retry failed action before moving to next turn</span>
+      <span class="str">"action_retry_count"</span>: <span class="num">2</span>
+    },
+
+    <span class="cm">// ── PRO PROFILE ─────────────────────────────────────</span>
+    <span class="str">"pro"</span>: {
+      <span class="str">"max_turns"</span>: <span class="num">100</span>,
+      <span class="str">"step_timeout_s"</span>: <span class="num">15</span>,
+      <span class="str">"history_compression"</span>: <span class="str">"aggressive"</span>,
+
+      <span class="cm">// When Checker agent activates:</span>
+      <span class="cm">// "off" | "final" | "checkpoints" | "strict"</span>
+      <span class="str">"verification_level"</span>: <span class="str">"checkpoints"</span>,
+
+      <span class="cm">// Record video of full session</span>
+      <span class="str">"record_video"</span>: <span class="kw">true</span>,
+
+      <span class="cm">// Enable video_analyzer tool for the Operator</span>
+      <span class="str">"video_analyzer"</span>: <span class="kw">true</span>
+    }
+  },
+
+  <span class="cm">// ── TRACE &amp; OUTPUT ──────────────────────────────────</span>
+  <span class="str">"traces"</span>: {
+    <span class="cm">// Save traces for every run (not just failures)</span>
+    <span class="str">"save_all"</span>: <span class="kw">true</span>,
+
+    <span class="cm">// Where to write trace JSON files</span>
+    <span class="str">"output_dir"</span>: <span class="str">"artemis-traces/"</span>,
+
+    <span class="cm">// Include screenshots in trace (larger files)</span>
+    <span class="str">"include_screenshots"</span>: <span class="kw">true</span>,
+
+    <span class="cm">// Include full Logcat in trace</span>
+    <span class="str">"include_logcat"</span>: <span class="kw">true</span>,
+
+    <span class="cm">// How many days to keep old traces</span>
+    <span class="str">"retention_days"</span>: <span class="num">30</span>
+  },
+
+  <span class="cm">// ── DEVICE ──────────────────────────────────────────</span>
+  <span class="str">"device"</span>: {
+    <span class="cm">// Auto-detect connected device via "adb devices"</span>
+    <span class="str">"auto_detect"</span>: <span class="kw">true</span>,
+
+    <span class="cm">// Or specify a device serial explicitly</span>
+    <span class="str">"serial"</span>: <span class="kw">null</span>,  <span class="cm">// e.g. "emulator-5554"</span>
+
+    <span class="cm">// Disable animations for more reliable testing</span>
+    <span class="str">"disable_animations"</span>: <span class="kw">true</span>,
+
+    <span class="cm">// Screen dimensions (auto-detected if null)</span>
+    <span class="str">"width"</span>: <span class="kw">null</span>,
+    <span class="str">"height"</span>: <span class="kw">null</span>
+  },
+
+  <span class="cm">// ── SERVER ──────────────────────────────────────────</span>
+  <span class="str">"server"</span>: {
+    <span class="str">"host"</span>: <span class="str">"localhost"</span>,
+    <span class="str">"port"</span>: <span class="num">8000</span>,
+
+    <span class="cm">// Enable MCP server alongside web console</span>
+    <span class="str">"mcp_enabled"</span>: <span class="kw">true</span>,
+    <span class="str">"mcp_port"</span>: <span class="num">8001</span>
+  }
+}</pre></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">Config Presets for Common Scenarios</h3>
+  <div class="cards cards-3">
+    <div class="card">
+      <div class="card-icon blue">🚀</div>
+      <h3>CI/CD (Speed + Cost)</h3>
+      <div class="code-block" style="margin-top:.75rem">
+        <div class="code-body"><pre>model: gemini-2.0-flash
+flash.max_turns: 20
+flash.history_compression: aggressive
+flash.include_screenshots: false
+traces.save_all: true</pre></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon purple">🔍</div>
+      <h3>Local Debugging</h3>
+      <div class="code-block" style="margin-top:.75rem">
+        <div class="code-body"><pre>model: gemini-1.5-pro
+flash.max_turns: 50
+flash.history_compression: minimal
+flash.include_screenshots: true
+pro.record_video: true</pre></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon green">🔒</div>
+      <h3>Privacy (No Cloud)</h3>
+      <div class="code-block" style="margin-top:.75rem">
+        <div class="code-body"><pre>model.provider: qwen
+model.local_model_url:
+  "http://localhost:11434"
+flash.include_screenshots: true
+<span class="cm"># All data stays on-device</span></pre></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 17 — SDK -->
+<section class="section" id="sdk">
+  <div class="section-header">
+    <div class="section-tag">Section 17</div>
+    <h2 class="section-title">Python SDK — Complete Reference</h2>
+    <p class="section-desc">Everything the <span class="inline-code">artemis-client</span> Python library can do — beyond the basic <span class="inline-code">run()</span> call.</p>
+  </div>
+
+  <div class="accordion">
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>⚙️</span> Client Setup &amp; Configuration</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">python — client init</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="kw">from</span> artemis_client <span class="kw">import</span> ArtemisClient
+
+client = ArtemisClient(
+    host=<span class="str">"http://localhost:8000"</span>,
+    default_profile=<span class="str">"flash"</span>,    <span class="cm"># flash | pro</span>
+    timeout=<span class="num">120</span>,                  <span class="cm"># max seconds per task</span>
+    device_serial=<span class="str">"emulator-5554"</span> <span class="cm"># optional, auto-detects</span>
+)</pre></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>▶️</span> run() — Basic &amp; Advanced</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">python — run() full options</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre>result = <span class="kw">await</span> client.<span class="fn">run</span>(
+    task=<span class="str">"Login with test@app.com and verify dashboard"</span>,
+    profile=<span class="str">"flash"</span>,            <span class="cm"># override default</span>
+    timeout=<span class="num">60</span>,                  <span class="cm"># override client timeout</span>
+    device_serial=<span class="str">"emulator-5554"</span>
+)
+
+<span class="cm"># Result object</span>
+result.succeeded      <span class="cm"># bool</span>
+result.error          <span class="cm"># str | None</span>
+result.trace_id       <span class="cm"># "flash-abc123..."</span>
+result.steps_taken    <span class="cm"># int</span>
+result.duration_s     <span class="cm"># float</span>
+result.final_screenshot  <span class="cm"># base64 PNG</span>
+result.usage          <span class="cm"># token counts + cost</span>
+result.report         <span class="cm"># Pro mode final report</span></pre></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>📡</span> stream() — Real-time Progress</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">python — streaming updates</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm"># Get live updates as task executes</span>
+<span class="kw">async for</span> event <span class="kw">in</span> client.<span class="fn">stream</span>(<span class="str">"Login and check dashboard"</span>):
+    <span class="kw">if</span> event.type == <span class="str">"turn"</span>:
+        <span class="fn">print</span>(<span class="str">f"Turn {event.turn}: {event.action} → {event.result}"</span>)
+    <span class="kw">elif</span> event.type == <span class="str">"screenshot"</span>:
+        <span class="fn">save_screenshot</span>(event.data, <span class="str">f"turn_{event.turn}.png"</span>)
+    <span class="kw">elif</span> event.type == <span class="str">"done"</span>:
+        <span class="fn">print</span>(<span class="str">f"✅ Done! {event.result.steps_taken} steps"</span>)
+    <span class="kw">elif</span> event.type == <span class="str">"error"</span>:
+        <span class="fn">print</span>(<span class="str">f"❌ Failed: {event.message}"</span>)</pre></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🔧</span> Device Management</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">python — device tools</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm"># List connected devices</span>
+devices = <span class="kw">await</span> client.<span class="fn">list_devices</span>()
+<span class="cm"># [{"serial": "emulator-5554", "status": "online", ...}]</span>
+
+<span class="cm"># Install APK before running tests</span>
+<span class="kw">await</span> client.<span class="fn">install_apk</span>(<span class="str">"./build/app-debug.apk"</span>)
+
+<span class="cm"># Get current device state</span>
+state = <span class="kw">await</span> client.<span class="fn">get_device_state</span>()
+state.screenshot   <span class="cm"># current screen (base64)</span>
+state.ui_tree      <span class="cm"># current accessibility tree XML</span>
+state.package      <span class="cm"># currently active app</span>
+
+<span class="cm"># Get Logcat</span>
+logs = <span class="kw">await</span> client.<span class="fn">get_logcat</span>(lines=<span class="num">200</span>, tag=<span class="str">"MyApp"</span>)
+
+<span class="cm"># Run on multiple devices in parallel</span>
+<span class="kw">import</span> asyncio
+results = <span class="kw">await</span> asyncio.<span class="fn">gather</span>(
+    client.<span class="fn">run</span>(<span class="str">"Login test"</span>, device_serial=<span class="str">"emulator-5554"</span>),
+    client.<span class="fn">run</span>(<span class="str">"Login test"</span>, device_serial=<span class="str">"emulator-5556"</span>),
+    client.<span class="fn">run</span>(<span class="str">"Login test"</span>, device_serial=<span class="str">"pixel-7-abc"</span>),
+)</pre></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>📊</span> Trace Retrieval &amp; Analysis</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">python — trace API</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm"># Get full trace</span>
+trace = <span class="kw">await</span> client.<span class="fn">get_trace</span>(<span class="str">"flash-abc123"</span>)
+
+<span class="cm"># Inspect turns</span>
+<span class="kw">for</span> turn <span class="kw">in</span> trace.turns:
+    <span class="fn">print</span>(<span class="str">f"Turn {turn.turn}: {turn.action} in {turn.duration_ms}ms"</span>)
+
+<span class="cm"># List all recent traces</span>
+traces = <span class="kw">await</span> client.<span class="fn">list_traces</span>(limit=<span class="num">20</span>)
+
+<span class="cm"># Export trace to HTML report</span>
+<span class="kw">await</span> client.<span class="fn">export_trace</span>(<span class="str">"flash-abc123"</span>, format=<span class="str">"html"</span>,
+                           output=<span class="str">"report.html"</span>)</pre></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 18 — SECURITY -->
+<section class="section" id="security">
+  <div class="section-header">
+    <div class="section-tag">Section 18</div>
+    <h2 class="section-title">Security Considerations</h2>
+    <p class="section-desc">What data leaves your machine, where API keys live, and how to run ARTEMIS with zero cloud data sharing.</p>
+  </div>
+
+  <div class="callout danger">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body"><h4>What Gets Sent to the Cloud (by default)</h4><p>Every turn, ARTEMIS sends your device's <strong>screenshot</strong> and <strong>UI tree XML</strong> to the vision LLM API (Gemini/Claude/OpenAI). If your app displays sensitive user data, this data appears in those screenshots and is sent to Google/Anthropic/OpenAI servers. Use a test account with dummy data in CI, or switch to a local model.</p></div>
+  </div>
+
+  <div class="cards cards-2" style="margin:2rem 0">
+    <div class="card">
+      <div class="card-icon red">🔑</div>
+      <h3>API Key Storage</h3>
+      <p>Keys are read from environment variables — never hardcoded in config files.</p>
+      <div class="code-block" style="margin-top:.75rem">
+        <div class="code-body"><pre><span class="cm"># .env file (never commit this!)</span>
+GEMINI_API_KEY=AIzaSy...
+ANTHROPIC_API_KEY=sk-ant-...
+OPENAI_API_KEY=sk-...
+
+<span class="cm"># In GitHub Actions — use Secrets</span>
+env:
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}</pre></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon green">🔒</div>
+      <h3>Zero Cloud Mode (Local Model)</h3>
+      <p>Run Qwen-VL locally via Ollama — no screenshots ever leave your machine.</p>
+      <div class="code-block" style="margin-top:.75rem">
+        <div class="code-body"><pre><span class="cm"># Install Ollama + pull model</span>
+ollama pull qwen2.5-vl:7b
+
+<span class="cm"># artemis.config.jsonc</span>
+"model": {
+  "provider": "qwen",
+  "local_model_url":
+    "http://localhost:11434"
+}</pre></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:1rem">Security Best Practices</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content"><h4>Always use a dedicated test account</h4><p>Never run ARTEMIS against production accounts. Create a separate test account with dummy data. Assume every screenshot is sent to the cloud.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content"><h4>Store API keys in environment variables only</h4><p>Never put API keys in <span class="inline-code">artemis.config.jsonc</span> or any committed file. Use <span class="inline-code">.env</span> locally and GitHub Secrets in CI.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content"><h4>Add artemis-traces/ to .gitignore</h4><p>Trace files contain screenshots of your app. Don't commit them — they can expose sensitive UI or test data.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content"><h4>For sensitive apps — use local model</h4><p>Healthcare, banking, or any app showing PII? Configure Qwen-VL locally via Ollama. Slightly slower but zero data leaves your infrastructure.</p></div>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">gitignore — what to exclude</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="cm"># ARTEMIS — never commit these</span>
+.env
+artemis-traces/
+artemis-videos/
+*.apk            <span class="cm"># compiled APKs may contain secrets</span>
+test-results/screenshots/</pre></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 19 — COMPARISON -->
+<section class="section" id="comparison">
+  <div class="section-header">
+    <div class="section-tag">Section 19</div>
+    <h2 class="section-title">ARTEMIS vs Every Alternative</h2>
+    <p class="section-desc">How ARTEMIS compares to every major Android testing approach — and when each one is actually the right choice.</p>
+  </div>
+
+  <div class="table-wrap" style="margin-bottom:2.5rem">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Espresso</th>
+          <th>Appium</th>
+          <th>Detox</th>
+          <th>UIAutomator2</th>
+          <th>ARTEMIS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Language required</td>
+          <td>Kotlin/Java</td>
+          <td>Any (via WebDriver)</td>
+          <td>JavaScript</td>
+          <td>Kotlin/Java</td>
+          <td><span class="badge-green">Plain English</span></td>
+        </tr>
+        <tr>
+          <td>Cross-app testing</td>
+          <td><span class="badge-red">No</span></td>
+          <td><span class="badge-green">Yes</span></td>
+          <td><span class="badge-red">No</span></td>
+          <td><span class="badge-green">Yes</span></td>
+          <td><span class="badge-green">Yes</span></td>
+        </tr>
+        <tr>
+          <td>Resilient to UI changes</td>
+          <td><span class="badge-red">No — breaks on ID change</span></td>
+          <td><span class="badge-yellow">Partial</span></td>
+          <td><span class="badge-red">No</span></td>
+          <td><span class="badge-yellow">Partial</span></td>
+          <td><span class="badge-green">Yes — adapts automatically</span></td>
+        </tr>
+        <tr>
+          <td>Flutter support</td>
+          <td><span class="badge-red">No</span></td>
+          <td><span class="badge-yellow">Via plugin (fragile)</span></td>
+          <td><span class="badge-red">No</span></td>
+          <td><span class="badge-yellow">Partial</span></td>
+          <td><span class="badge-green">Yes (Semantics + Visual)</span></td>
+        </tr>
+        <tr>
+          <td>Setup time</td>
+          <td>Hours</td>
+          <td>Hours–Days</td>
+          <td>Hours</td>
+          <td>Hours</td>
+          <td><span class="badge-green">Minutes</span></td>
+        </tr>
+        <tr>
+          <td>Test writing speed</td>
+          <td>Slow (verbose code)</td>
+          <td>Medium</td>
+          <td>Medium</td>
+          <td>Slow</td>
+          <td><span class="badge-green">Very fast (1 sentence)</span></td>
+        </tr>
+        <tr>
+          <td>Auto-recovery on failure</td>
+          <td><span class="badge-red">None</span></td>
+          <td><span class="badge-red">None</span></td>
+          <td><span class="badge-red">None</span></td>
+          <td><span class="badge-red">None</span></td>
+          <td><span class="badge-green">Yes (Pro Mode)</span></td>
+        </tr>
+        <tr>
+          <td>Handles unexpected popups</td>
+          <td><span class="badge-red">Test fails</span></td>
+          <td>Manual handling</td>
+          <td><span class="badge-red">Test fails</span></td>
+          <td>Manual handling</td>
+          <td><span class="badge-green">Auto-dismissed</span></td>
+        </tr>
+        <tr>
+          <td>Long task stability (100+ steps)</td>
+          <td><span class="badge-red">N/A</span></td>
+          <td><span class="badge-yellow">Flaky</span></td>
+          <td><span class="badge-red">N/A</span></td>
+          <td><span class="badge-yellow">Flaky</span></td>
+          <td><span class="badge-green">Yes (Pro + checkpoints)</span></td>
+        </tr>
+        <tr>
+          <td>CI/CD integration</td>
+          <td><span class="badge-green">Native (Gradle)</span></td>
+          <td><span class="badge-green">Yes</span></td>
+          <td><span class="badge-green">Yes</span></td>
+          <td><span class="badge-green">Yes</span></td>
+          <td><span class="badge-green">Yes (Python SDK)</span></td>
+        </tr>
+        <tr>
+          <td>Cost per test run</td>
+          <td>Free</td>
+          <td>Free / Server cost</td>
+          <td>Free</td>
+          <td>Free</td>
+          <td>~$0.003 (Gemini Flash)</td>
+        </tr>
+        <tr>
+          <td>Test maintenance on UI change</td>
+          <td><span class="badge-red">Rewrite tests</span></td>
+          <td><span class="badge-red">Update selectors</span></td>
+          <td><span class="badge-red">Rewrite tests</span></td>
+          <td><span class="badge-red">Update selectors</span></td>
+          <td><span class="badge-green">Usually zero changes</span></td>
+        </tr>
+        <tr>
+          <td>Execution speed</td>
+          <td><span class="badge-green">Fastest</span></td>
+          <td>Medium</td>
+          <td><span class="badge-green">Fast</span></td>
+          <td><span class="badge-green">Fast</span></td>
+          <td>Medium (3–5s/step)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin-bottom:1.5rem">When Each Tool is ACTUALLY the Right Choice</h3>
+  <div class="accordion">
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>⚡</span> Use Espresso when…</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>Espresso is still the <strong>fastest and most reliable</strong> option for a specific type of test: unit-level UI tests on a single native Android screen, written in Kotlin. It runs in-process with the app, so it has zero network overhead and executes in milliseconds.</p>
+        <div class="callout success" style="margin-top:1rem">
+          <div class="callout-icon">✅</div>
+          <div class="callout-body"><h4>Best for</h4><p>Pure native Android apps (not Flutter). Testing a single screen in isolation. Speed is critical. Your team is already writing Kotlin tests. You have tight control over your UI IDs.</p></div>
+        </div>
+        <div class="callout danger">
+          <div class="callout-icon">❌</div>
+          <div class="callout-body"><h4>Don't use when</h4><p>Your app is Flutter. You need cross-app testing. Your UI changes frequently. You want tests that non-developers can read and understand.</p></div>
+        </div>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🔧</span> Use Appium when…</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>Appium's main advantage is <strong>cross-platform</strong> — you write tests in JavaScript/Python/Ruby and run them on both Android and iOS with minimal changes. It's the industry standard for teams that need one test suite for multiple platforms.</p>
+        <div class="callout success" style="margin-top:1rem">
+          <div class="callout-icon">✅</div>
+          <div class="callout-body"><h4>Best for</h4><p>Teams that test both Android AND iOS. Existing Selenium/WebDriver expertise. QA teams that don't write Kotlin. Enterprise projects with large existing Appium suites.</p></div>
+        </div>
+        <div class="callout danger">
+          <div class="callout-icon">❌</div>
+          <div class="callout-body"><h4>Don't use when</h4><p>Flutter apps (Appium Flutter plugin is fragile). Tests keep breaking on minor UI updates. Long complex workflows (flakiness compounds). You want fast setup and low maintenance.</p></div>
+        </div>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🤖</span> Use ARTEMIS when…</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>ARTEMIS shines in scenarios where traditional tools are painful: <strong>Flutter apps</strong>, <strong>fast-changing UIs</strong>, <strong>complex workflows</strong>, and situations where you want tests that are readable by anyone on the team.</p>
+        <div class="callout success" style="margin-top:1rem">
+          <div class="callout-icon">✅</div>
+          <div class="callout-body"><h4>Best for</h4><p>Flutter apps. UIs that change frequently. E2E flows spanning multiple screens. Teams without dedicated QA engineers who write Kotlin. Tasks you want to describe in plain English. Long workflows (30+ steps) with Pro Mode. Any scenario where you want to test "from the user's perspective" rather than from the code's perspective.</p></div>
+        </div>
+        <div class="callout warning">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-body"><h4>Consider carefully when</h4><p>You need sub-second test execution (ARTEMIS is 3–5s/step). Your app shows sensitive PII in the UI (use local model or dummy data). Cost per test matters at very high volume (&gt;10,000 runs/day). You need to test animations precisely or frame-perfect timing.</p></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="highlight" style="margin-top:2rem">
+    <h3>The Hybrid Approach (Recommended)</h3>
+    <p style="color:var(--text2);margin-bottom:1rem">The best teams don't pick one tool — they use all three strategically:</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content"><h4>Espresso / flutter_test for unit-level UI</h4><p>Fast, runs in-process, tests individual widgets and screens in isolation. Hundreds of these run in seconds.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content"><h4>ARTEMIS Flash for smoke tests on every PR</h4><p>5–10 key user journeys that verify the app basically works. Runs in ~5 minutes, catches regressions fast.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content"><h4>ARTEMIS Pro for full E2E regression on main</h4><p>Complete flows: onboarding, checkout, settings, edge cases. Runs on every merge to main with full reporting.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 20 — ROADMAP -->
+<section class="section" id="roadmap">
+  <div class="section-header">
+    <div class="section-tag">Section 20</div>
+    <h2 class="section-title">Roadmap &amp; What's Coming</h2>
+    <p class="section-desc">Officially announced upcoming features from the Google ARTEMIS team.</p>
+  </div>
+
+  <div class="cards cards-2">
+    <div class="card">
+      <div class="card-icon blue">🛠️</div>
+      <h3>Android Studio Integration</h3>
+      <p>A native plugin that brings ARTEMIS directly into Android Studio. Write a task in a sidebar, watch it execute on your connected device, see the trace inline in the IDE — no terminal needed.</p>
+      <p style="margin-top:.75rem;font-size:.82rem;color:var(--text3)">Status: In development</p>
+    </div>
+    <div class="card">
+      <div class="card-icon purple">🍎</div>
+      <h3>iOS Platform Expansion</h3>
+      <p>The same harness, same MCP tools, same natural language interface — but driving iPhones and iPads via XCTest and the iOS accessibility framework. One test suite for both platforms.</p>
+      <p style="margin-top:.75rem;font-size:.82rem;color:var(--text3)">Status: Planned</p>
+    </div>
+    <div class="card">
+      <div class="card-icon green">⚡</div>
+      <h3>On-Device Lightweight VLMs</h3>
+      <p>Run a quantized vision model directly on the device's NPU (Qualcomm Hexagon, MediaTek APU). No API calls, no latency, no cost per token. The agent runs entirely on the phone itself.</p>
+      <p style="margin-top:.75rem;font-size:.82rem;color:var(--text3)">Status: Research phase — Qwen-VL local via Ollama available now as preview</p>
+    </div>
+    <div class="card">
+      <div class="card-icon yellow">🎙️</div>
+      <h3>Real-time Voice Interaction</h3>
+      <p>Instead of typing a task, speak it. ARTEMIS converts voice to task, executes, and speaks back the result. Designed for hands-free testing during development.</p>
+      <p style="margin-top:.75rem;font-size:.82rem;color:var(--text3)">Status: Planned</p>
+    </div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">The Competitive Landscape (September 2026)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tool</th><th>Type</th><th>AndroidWorld Score</th><th>Key Difference</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ARTEMIS</strong></td><td>Hosted harness + cloud model</td><td><span class="badge-green">99.1% (self-reported)</span></td><td>Best accuracy, needs API key</td></tr>
+        <tr><td>GPT 5.5 alone</td><td>Model only (no harness)</td><td><span class="badge-yellow">74%</span></td><td>Smart model, no execution layer</td></tr>
+        <tr><td>Gemini 3.1 Pro alone</td><td>Model only</td><td><span class="badge-yellow">72.4%</span></td><td>Same — no harness</td></tr>
+        <tr><td>Orion (on-device)</td><td>On-device harness + Gemma 4</td><td><span class="badge-yellow">~50–60%</span></td><td>Zero cloud, runs on device NPU</td></tr>
+        <tr><td>Appium + AI</td><td>Traditional + AI assist</td><td><span class="badge-red">~30–40%</span></td><td>Hybrid — still needs selectors</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info" style="margin-top:1.5rem">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><h4>The On-Device Future</h4><p>The most interesting development is <strong>Orion</strong> — an open-source framework that runs Gemma-4 quantized on the device's NPU. It scores ~50–60% vs ARTEMIS's 99.1%, but has zero latency, zero API cost, and zero data leaves the device. As on-device models get better, the gap will narrow. ARTEMIS's architecture is already prepared — just swap <span class="inline-code">model.local_model_url</span> in the config.</p></div>
+  </div>
+
+
+</section>
+
+<!-- ═══════════════════════════════════════════════ SECTION 21 — RULES.MD -->
+<section class="section" id="rules-md">
+  <div class="section-header">
+    <div class="section-tag">Section 21</div>
+    <h2 class="section-title">The rules.md File — Teaching Claude Code How to Use ARTEMIS</h2>
+    <p class="section-desc">There are TWO AI systems involved. <span class="inline-code">rules.md</span> is the rulebook sent to the <strong>outer AI</strong> (Claude Code / Cursor) — not to ARTEMIS itself. It tells your IDE's AI assistant how to behave when driving Android devices.</p>
+  </div>
+
+  <div class="cards cards-2" style="margin-bottom:2rem">
+    <div class="card">
+      <div class="card-icon red">🤖</div>
+      <h3>Inner AI — ARTEMIS Agent</h3>
+      <p>The vision LLM (Gemini/Claude) running <strong>inside</strong> ARTEMIS. Decides each individual action on screen (tap, type, swipe). Gets its instructions from ARTEMIS's internal system prompt. You don't configure this directly.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon blue">🧠</div>
+      <h3>Outer AI — Claude Code / Cursor</h3>
+      <p>The AI assistant in your IDE. Decides <strong>when</strong> to call ARTEMIS, <strong>what task</strong> to give it, and <strong>which profile</strong> to use. This is what <span class="inline-code">rules.md</span> configures.</p>
+    </div>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><h4>Where rules.md Lives</h4><p>When you run <span class="inline-code">./start.sh</span>, ARTEMIS offers to install <span class="inline-code">rules.md</span> into your AI IDE automatically. For Claude Code it goes to <span class="inline-code">~/.claude/rules/artemis.md</span>. For Cursor: <span class="inline-code">.cursorrules</span>. For Codex: <span class="inline-code">~/.codex/AGENTS.md</span>. The README marks this as <strong>highly recommended</strong> — skip it and your outer AI won't know how to use ARTEMIS correctly.</p></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">What rules.md Covers</h3>
+  <div class="accordion">
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🗺️</span> Rule 1 — Active Exploration Before Coding</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>Before writing any code or building an APK, Claude Code should <strong>explore the app first</strong> using <span class="inline-code">mobile_get_device_state</span> to understand what's currently on screen, what flows exist, and what UI elements are available.</p>
+        <div class="code-block" style="margin-top:1rem">
+          <div class="code-header"><span class="code-lang">rule — explore first</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm">// What Claude Code does WITHOUT the rule:</span>
+You: <span class="str">"Test the login flow"</span>
+Claude: <span class="str">"I'll build the APK and test it."</span>
+<span class="cm">// Builds APK → installs → runs task → might get wrong screen</span>
+
+<span class="cm">// What Claude Code does WITH the rule:</span>
+You: <span class="str">"Test the login flow"</span>
+Claude: <span class="fn">mobile_get_device_state</span>()  <span class="cm">← first looks at what's on screen</span>
+<span class="cm">// Sees current state → understands context → then acts intelligently</span></pre></div>
+        </div>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>⚡</span> Rule 2 — Flash vs Pro Routing Strategy</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>The rule gives Claude Code an explicit decision tree for choosing profiles — so it doesn't always default to Flash or always use Pro unnecessarily.</p>
+        <div class="code-block" style="margin-top:1rem">
+          <div class="code-header"><span class="code-lang">rule — profile routing</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm">Use FLASH when:</span>
+- Task is clear and specific (login, tap a button, verify text)
+- Estimated steps &lt; 15
+- Quick smoke test or single-screen verification
+- Speed matters (CI/CD smoke test)
+
+<span class="cm">Use PRO when:</span>
+- Task spans multiple screens or apps
+- Estimated steps &gt; 20
+- Needs verification at multiple points
+- Long-running exploration or stability test
+- Any task involving payment, checkout, or complex state</pre></div>
+        </div>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>⏱️</span> Rule 3 — Latency and Timing Compensation</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>Tells Claude Code to <strong>account for real device timing</strong>. Apps need time to load, animations need time to complete, keyboards need time to appear. The rule prevents Claude Code from sending back-to-back tasks too fast.</p>
+        <div class="code-block" style="margin-top:1rem">
+          <div class="code-header"><span class="code-lang">rule — timing awareness</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm">// Bad — Claude Code sends next task immediately</span>
+<span class="kw">await</span> artemis.<span class="fn">run</span>(<span class="str">"Install the APK"</span>)
+<span class="kw">await</span> artemis.<span class="fn">run</span>(<span class="str">"Open the app"</span>)  <span class="cm">← might run before install finishes</span>
+
+<span class="cm">// Good — rule teaches Claude to chain properly</span>
+<span class="kw">await</span> artemis.<span class="fn">run</span>(
+  <span class="str">"Install the APK, wait for it to complete, "</span>
+  <span class="str">"then open the app and verify main screen loads"</span>
+)  <span class="cm">← single task handles the sequence</span></pre></div>
+        </div>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🎯</span> Rule 4 — Dynamic-First, Coordinate-Fallback</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <p>Teaches Claude Code to always prefer <strong>element-based targeting</strong> (by text, resource-id, index) over coordinate-based targeting when writing task prompts. Coordinates break when screen size changes; element references don't.</p>
+        <div class="code-block" style="margin-top:1rem">
+          <div class="code-header"><span class="code-lang">rule — locator preference</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm">// ❌ Coordinate-based (breaks on different screen sizes)</span>
+<span class="str">"Tap at coordinates (540, 1200)"</span>
+
+<span class="cm">// ✅ Dynamic element-based (works on any screen size)</span>
+<span class="str">"Tap the Sign In button"</span>
+<span class="str">"Tap the button with text 'Sign In'"</span>
+<span class="str">"Tap the element with id 'login-button'"</span></pre></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body"><h4>Install rules.md in ONE place only</h4><p>Claude Code loads both <span class="inline-code">~/.claude/CLAUDE.md</span> and <span class="inline-code">~/.claude/rules/*.md</span>. If you install rules.md in both locations, it gets loaded twice — wasting context tokens every single turn. The installer handles this correctly, but if you add it manually, pick one location only.</p></div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 22 — TERMINAL -->
+<section class="section" id="terminal">
+  <div class="section-header">
+    <div class="section-tag">Section 22</div>
+    <h2 class="section-title">Terminal Mode — No IDE Required</h2>
+    <p class="section-desc">ARTEMIS works completely standalone from the terminal. No Claude Code, no Cursor, no MCP — just a command and a device.</p>
+  </div>
+
+  <div class="callout info">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body"><h4>When to use Terminal Mode</h4><p>Scripting tasks in bash/shell. Running one-off tests quickly without opening an IDE. Cron jobs that run tests on a schedule. Debugging a specific task interactively. CI/CD pipelines where you call ARTEMIS directly, not via pytest.</p></div>
+  </div>
+
+  <h3 style="margin:1.5rem 0 1rem">All Terminal Commands</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">bash — complete terminal reference</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="cm"># ── SERVER MANAGEMENT ────────────────────────────────</span>
+uv run artemis start              <span class="cm"># start server (background)</span>
+uv run artemis ui                 <span class="cm"># start + open web console</span>
+uv run artemis status             <span class="cm"># is server running?</span>
+uv run artemis restart            <span class="cm"># restart server</span>
+uv run artemis stop               <span class="cm"># stop server</span>
+
+<span class="cm"># ── RUN A TASK DIRECTLY ──────────────────────────────</span>
+uv run artemis run <span class="str">"Open settings and read battery level"</span>
+
+<span class="cm"># With profile</span>
+uv run artemis run <span class="str">"Complete the full checkout flow"</span> --profile pro
+
+<span class="cm"># With specific device</span>
+uv run artemis run <span class="str">"Login and verify dashboard"</span> \
+  --device emulator-5554 \
+  --profile flash
+
+<span class="cm"># ── TRACE COMMANDS ───────────────────────────────────</span>
+uv run artemis trace flash-abc123-def456   <span class="cm"># open trace in browser</span>
+uv run artemis traces                      <span class="cm"># list recent traces</span>
+uv run artemis traces --limit 20           <span class="cm"># list last 20</span>
+
+<span class="cm"># ── DEVICE COMMANDS ──────────────────────────────────</span>
+uv run artemis devices                     <span class="cm"># list connected devices</span>
+uv run artemis screenshot                  <span class="cm"># capture + save screenshot</span>
+uv run artemis logcat                      <span class="cm"># stream Logcat live</span>
+uv run artemis logcat --lines 100          <span class="cm"># last 100 lines</span>
+uv run artemis install ./app-debug.apk     <span class="cm"># install APK</span></pre></div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">Real-world Terminal Scripting Examples</h3>
+  <div class="accordion">
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🔁</span> Nightly Regression Script (bash)</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">bash — nightly_tests.sh</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm">#!/bin/bash</span>
+<span class="kw">set</span> -e
+
+<span class="cm"># Build latest APK</span>
+flutter build apk --debug
+uv run artemis install build/app/outputs/flutter-apk/app-debug.apk
+
+<span class="cm"># Run smoke tests</span>
+TASKS=(
+  <span class="str">"Open app, verify main screen loads without errors"</span>
+  <span class="str">"Login with test@app.com / Pass123, verify dashboard"</span>
+  <span class="str">"Navigate to profile, verify user name shows correctly"</span>
+  <span class="str">"Open settings, verify notifications toggle is visible"</span>
+)
+
+PASS=<span class="num">0</span>; FAIL=<span class="num">0</span>
+
+<span class="kw">for</span> task <span class="kw">in</span> <span class="str">"${TASKS[@]}"</span>; <span class="kw">do</span>
+  <span class="kw">if</span> uv run artemis run <span class="str">"$task"</span> --profile flash; <span class="kw">then</span>
+    <span class="fn">echo</span> <span class="str">"✅ PASS: $task"</span>
+    ((PASS++))
+  <span class="kw">else</span>
+    <span class="fn">echo</span> <span class="str">"❌ FAIL: $task"</span>
+    ((FAIL++))
+  <span class="kw">fi</span>
+<span class="kw">done</span>
+
+<span class="fn">echo</span> <span class="str">"Results: $PASS passed, $FAIL failed"</span>
+<span class="kw">exit</span> $FAIL</pre></div>
+        </div>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>⏰</span> Cron Job — Scheduled Daily Test</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">bash — crontab</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm"># Run smoke test every day at 7 AM</span>
+<span class="num">0 7</span> * * * cd /home/dev/myapp && bash nightly_tests.sh \
+  >> /var/log/artemis-tests.log 2>&1
+
+<span class="cm"># Run full Pro regression every Sunday at 2 AM</span>
+<span class="num">0 2</span> * * 0 cd /home/dev/myapp && \
+  uv run artemis run \
+  <span class="str">"Complete full regression: test login, profile, settings, </span>
+<span class="str">   checkout, notifications, and logout"</span> \
+  --profile pro >> /var/log/artemis-regression.log 2>&1</pre></div>
+        </div>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <div class="acc-title"><span>🔗</span> Chaining with Git Hooks</div>
+        <div class="acc-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></div>
+      </div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">bash — .git/hooks/pre-push</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+          <div class="code-body"><pre><span class="cm">#!/bin/bash</span>
+<span class="cm"># Run smoke test before every push to main</span>
+
+BRANCH=$(git branch --show-current)
+
+<span class="kw">if</span> [ <span class="str">"$BRANCH"</span> = <span class="str">"main"</span> ]; <span class="kw">then</span>
+  <span class="fn">echo</span> <span class="str">"🤖 Running ARTEMIS smoke test before push..."</span>
+  
+  flutter build apk --debug --quiet
+  uv run artemis install build/app/outputs/flutter-apk/app-debug.apk
+  
+  uv run artemis run \
+    <span class="str">"Open app, login with test@app.com / Pass123, verify dashboard loads"</span> \
+    --profile flash
+  
+  <span class="kw">if</span> [ $? -ne <span class="num">0</span> ]; <span class="kw">then</span>
+    <span class="fn">echo</span> <span class="str">"❌ Smoke test failed — push blocked"</span>
+    <span class="kw">exit</span> 1
+  <span class="kw">fi</span>
+  
+  <span class="fn">echo</span> <span class="str">"✅ Smoke test passed — pushing"</span>
+<span class="kw">fi</span></pre></div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 23 — ANALYTICS -->
+<section class="section" id="analytics">
+  <div class="section-header">
+    <div class="section-tag">Section 23</div>
+    <h2 class="section-title">Analytics QA — A Different Use Case</h2>
+    <p class="section-desc">ARTEMIS isn't just for UI testing. Teams use it to verify that analytics events (Firebase, custom datalayers) fire correctly with the right parameters — automatically.</p>
+  </div>
+
+  <div class="highlight">
+    <h3>The Problem ARTEMIS Solves for Analytics</h3>
+    <p style="color:var(--text2)">Verifying mobile analytics manually means: tap through a checkout funnel on a test phone, watch Charles Proxy or Logcat line by line, verify that <span class="inline-code">purchase_completed</span> fired with the correct parameters, and pray nothing broke in the data layer. One minor UI update breaks your entire verification process.</p>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">How It Works for Analytics</h3>
+  <div class="flow">
+    <div class="flow-item">
+      <div class="flow-icon">▶️</div>
+      <div class="flow-content">
+        <h4>ARTEMIS navigates the funnel</h4>
+        <p>"Open the app, add Product X to cart, apply promo code TEST2026, and complete guest checkout."</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">📋</div>
+      <div class="flow-content">
+        <h4>Logcat captures all events in real-time</h4>
+        <p>As ARTEMIS navigates, it streams Logcat — capturing every Firebase debug event, SDK payload, and custom datalayer event with timestamps.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">🔍</div>
+      <div class="flow-content">
+        <h4>Verify events fired correctly</h4>
+        <p>After the run, inspect the trace's Logcat for your analytics events — check they fired at the right step with the right parameters.</p>
+      </div>
+    </div>
+    <div class="flow-item">
+      <div class="flow-icon">🔁</div>
+      <div class="flow-content">
+        <h4>Run edge cases automatically</h4>
+        <p>Pro Mode can run 10-hour exploratory passes to trigger non-linear user journeys and catch missing event parameters across edge cases.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin:2rem 0 1rem">Analytics QA in Code</h3>
+  <div class="code-block">
+    <div class="code-header"><span class="code-lang">python — verify firebase events</span><div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div></div>
+    <div class="code-body"><pre><span class="tag">@pytest.mark.asyncio</span>
+<span class="kw">async def</span> <span class="fn">test_purchase_event_fires</span>(artemis):
+    <span class="str">"""Verify purchase_completed event fires with correct params."""</span>
+
+    result = <span class="kw">await</span> artemis.<span class="fn">run</span>(
+        <span class="str">"Open app, add 'iPhone Case' to cart, "</span>
+        <span class="str">"checkout as guest with card 4111111111111111, "</span>
+        <span class="str">"complete the purchase, verify order confirmation shows"</span>,
+        profile=<span class="str">"pro"</span>
+    )
+    <span class="fn">assert</span> result.succeeded
+
+    <span class="cm"># Get the Logcat from the trace</span>
+    trace = <span class="kw">await</span> artemis.<span class="fn">get_trace</span>(result.trace_id)
+    logcat = <span class="str">"\n"</span>.<span class="fn">join</span>(trace.logcat)
+
+    <span class="cm"># Verify the analytics event fired</span>
+    <span class="fn">assert</span> <span class="str">"purchase_completed"</span> <span class="kw">in</span> logcat, \
+        <span class="str">"purchase_completed event never fired!"</span>
+
+    <span class="cm"># Verify required parameters are present</span>
+    <span class="fn">assert</span> <span class="str">"item_name: iPhone Case"</span> <span class="kw">in</span> logcat
+    <span class="fn">assert</span> <span class="str">"currency: EGP"</span> <span class="kw">in</span> logcat
+    <span class="fn">assert</span> <span class="str">"transaction_id:"</span> <span class="kw">in</span> logcat  <span class="cm"># any value is fine</span>
+
+    <span class="cm"># Verify NO double-fire (common bug)</span>
+    purchase_count = logcat.<span class="fn">count</span>(<span class="str">"purchase_completed"</span>)
+    <span class="fn">assert</span> purchase_count == <span class="num">1</span>, \
+        <span class="str">f"purchase_completed fired {purchase_count} times (expected 1)!"</span>
+
+<span class="tag">@pytest.mark.asyncio</span>
+<span class="kw">async def</span> <span class="fn">test_screen_view_events</span>(artemis):
+    <span class="str">"""Verify screen_view fires for every major screen."""</span>
+
+    result = <span class="kw">await</span> artemis.<span class="fn">run</span>(
+        <span class="str">"Login, navigate to: Home → Products → Product Detail → Cart → Profile"</span>,
+        profile=<span class="str">"pro"</span>
+    )
+    trace = <span class="kw">await</span> artemis.<span class="fn">get_trace</span>(result.trace_id)
+    logcat = <span class="str">"\n"</span>.<span class="fn">join</span>(trace.logcat)
+
+    required_screens = [<span class="str">"home"</span>, <span class="str">"products"</span>, <span class="str">"product_detail"</span>,
+                        <span class="str">"cart"</span>, <span class="str">"profile"</span>]
+
+    <span class="kw">for</span> screen <span class="kw">in</span> required_screens:
+        <span class="fn">assert</span> <span class="str">f"screen_view: {screen}"</span> <span class="kw">in</span> logcat, \
+            <span class="str">f"screen_view not fired for: {screen}"</span></pre></div>
+  </div>
+
+  <div class="cards cards-2" style="margin-top:2rem">
+    <div class="card">
+      <div class="card-icon green">✅</div>
+      <h3>What Analytics QA with ARTEMIS Catches</h3>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem;margin-top:.5rem">
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent3)">→</span> Events not firing at all</li>
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent3)">→</span> Events firing with wrong parameters</li>
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent3)">→</span> Double-fire bugs (event fires twice)</li>
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent3)">→</span> Events firing at wrong screen</li>
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent3)">→</span> Missing required fields in payload</li>
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent3)">→</span> Edge case paths missing tracking</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-icon yellow">⭐</div>
+      <h3>Why ARTEMIS is Perfect for This</h3>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem;margin-top:.5rem">
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent5)">→</span> Logcat captured automatically in every trace</li>
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent5)">→</span> Safety Net handles consent popups automatically</li>
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent5)">→</span> Pro mode runs 10h+ edge case exploration</li>
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent5)">→</span> Cross-screen journeys in one task</li>
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent5)">→</span> Structured audit logs as pytest assertions</li>
+        <li style="font-size:.87rem;color:var(--text2);padding-left:1rem;position:relative"><span style="position:absolute;left:0;color:var(--accent5)">→</span> Runs in CI/CD on every deploy</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1200px;margin:0 auto"></div>
+
+<!-- ═══════════════════════════════════════════════ FOOTER -->
+<footer>
+  <p>ARTEMIS Complete Reference Guide · <strong>google/artemis</strong> · Apache 2.0</p>
+  <p style="margin-top:.5rem;color:var(--text3)">23 Sections · Perception · Agent Loop · ADB · MCP Protocol · Flutter Semantics · Pro Mode · CI/CD · Benchmark · Prompts · Tokens · Web Console · Traces · Config · SDK · Security · Comparisons · Roadmap · rules.md · Terminal Mode · Analytics QA</p>
+</footer>
+
+<script>
+// ── Progress bar
+const prog = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  prog.style.width = pct + '%';
+});
+
+// ── Intersection Observer for section animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// ── Token bar animation
+const tokenObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.token-fill').forEach(f => {
+        f.style.transform = 'scaleX(1)';
+      });
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.token-bar').forEach(b => tokenObserver.observe(b));
+
+// ── Accordion
+function toggleAcc(header) {
+  const item = header.parentElement;
+  const body = item.querySelector('.acc-body');
+  const inner = item.querySelector('.acc-body-inner');
+  const isOpen = item.classList.contains('open');
+  if (isOpen) {
+    body.style.maxHeight = '0';
+    item.classList.remove('open');
+  } else {
+    body.style.maxHeight = inner.scrollHeight + 'px';
+    item.classList.add('open');
+  }
+}
+
+// open first accordion items on load
+document.querySelectorAll('.acc-item.open').forEach(item => {
+  const body = item.querySelector('.acc-body');
+  const inner = item.querySelector('.acc-body-inner');
+  if (body && inner) body.style.maxHeight = inner.scrollHeight + 'px';
+});
+
+// ── Active nav link + TOC dots
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const tocDots = document.querySelectorAll('.toc-dot');
+
+function updateActive() {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+  tocDots.forEach(d => {
+    d.classList.toggle('active', d.dataset.target === current);
+  });
+}
+window.addEventListener('scroll', updateActive, { passive: true });
+updateActive();
+
+// ── TOC dot click
+tocDots.forEach(d => {
+  d.addEventListener('click', () => {
+    const target = document.getElementById(d.dataset.target);
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// ── Nav link smooth scroll
+navLinks.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
